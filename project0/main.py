@@ -12,7 +12,7 @@ def operations(h, w):
 
 
 def norm(A, B):
-    s = np.norm(A+B)
+    s = np.linalg.norm(A+B)
     return s
     raise NotImplementedError
 
