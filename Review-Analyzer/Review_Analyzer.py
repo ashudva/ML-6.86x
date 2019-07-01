@@ -144,23 +144,15 @@ def pegasos(feature_matrix, labels, T, L):
 
 #pragma: coderesponse template
 def classify(feature_matrix, theta, theta_0):
-    """
-    A classification function that uses theta and theta_0 to classify a set of
-    data points.
 
-    Args:
-        feature_matrix - A numpy matrix describing the given data. Each row
-            represents a single data point.
-                theta - A numpy array describing the linear classifier.
-        theta - A numpy array describing the linear classifier.
-        theta_0 - A real valued number representing the offset parameter.
-
-    Returns: A numpy array of 1s and -1s where the kth element of the array is
-    the predicted classification of the kth row of the feature matrix using the
-    given theta and theta_0. If a prediction is GREATER THAN zero, it should
-    be considered a positive classification.
-    """
-    # Your code here
+    labels = []
+    for feature_vector in feature_matrix:
+        # Data points exactly on the classifier are predicted as -1
+        if np.dot(theta,feature_vector) + theta_0 <= 0:
+            labels.append(-1)
+        elif np.dot(theta,feature_vector) + theta_0 > 0:
+            labels.append(1)
+    return np.array(labels)
     raise NotImplementedError
 #pragma: coderesponse end
 
