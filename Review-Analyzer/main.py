@@ -2,10 +2,6 @@ import Review_Analyzer as p1
 import utils
 import numpy as np
 
-#-------------------------------------------------------------------------------
-# Data loading. There is no need to edit code in this section.
-#-------------------------------------------------------------------------------
-
 train_data = utils.load_data('reviews_train.tsv')
 val_data = utils.load_data('reviews_val.tsv')
 test_data = utils.load_data('reviews_test.tsv')
@@ -46,7 +42,7 @@ plot_toy_results('Pegasos', thetas_pegasos)
 # Problem 7
 #-------------------------------------------------------------------------------
 
-T = 100
+T = 10
 L = 0.01
 
 pct_train_accuracy, pct_val_accuracy = \
@@ -104,16 +100,17 @@ utils.plot_tune_results('Pegasos', 'L', Ls, *peg_tune_results_L)
 # against the test dataset. The test data has been provided as
 # test_bow_features and test_labels.
 #-------------------------------------------------------------------------------
-
-# Your code here
-
+T = 25
+L = 0.01
+theta , theta_0 = p1.average_perceptron(test_bow_features, test_labels, T)
+print(p1.classifier_accuracy(p1.average_perceptron, train_bow_features,test_bow_features,train_labels,test_labels,T=T))
 #-------------------------------------------------------------------------------
 # Assign to best_theta, the weights (and not the bias!) learned by your most
 # accurate algorithm with the optimal choice of hyperparameters.
 #-------------------------------------------------------------------------------
 
-# best_theta = None # Your code here
-# wordlist   = [word for (idx, word) in sorted(zip(dictionary.values(), dictionary.keys()))]
-# sorted_word_features = utils.most_explanatory_word(best_theta, wordlist)
-# print("Most Explanatory Word Features")
-# print(sorted_word_features[:10])
+best_theta =  theta
+wordlist   = [word for (idx, word) in sorted(zip(dictionary.values(), dictionary.keys()))]
+sorted_word_features = utils.most_explanatory_word(best_theta, wordlist)
+print("Most Explanatory Word Features")
+print(sorted_word_features[:10])
