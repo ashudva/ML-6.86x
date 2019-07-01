@@ -127,18 +127,14 @@ def pegasos(feature_matrix, labels, T, L):
 
     new_theta = np.zeros((feature_matrix.shape[1],))
     new_theta_0 = 0
-    update_count = 1
+    update_count = 0
     for t in range(T):
-        for i, feature_vector in enumerate(feature_matrix):
+        for i in get_order(feature_matrix.shape[0]):
+            update_count += 1
             eta = 1/sqrt(update_count)
-            if labels[i] * (np.dot(new_theta,feature_vector) + new_theta_0) <= 1:
-                new_theta = new_theta*(1 - eta*L) + eta*labels[i]*feature_vector
-                new_theta_0 = new_theta_0 + eta*labels[i]
-                update_count += 1
-            else:
-                new_theta = (1 - eta*L)*new_theta
-                new_theta_0 = new_theta_0
-                update_count += 1
+            updated_data = pegasos_single_step_update(feature_matrix[i],labels[i],L,eta,new_theta,new_theta_0)
+            new_theta = updated_data[0]
+            new_theta_0 = updated_data[1]
     return new_theta, new_theta_0
     raise NotImplementedError
 #pragma: coderesponse end
