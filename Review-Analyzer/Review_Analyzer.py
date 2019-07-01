@@ -64,7 +64,7 @@ def perceptron_single_step_update(
 
 #pragma: coderesponse template
 def perceptron(feature_matrix, labels, T):
-    
+
     new_theta = np.zeros((feature_matrix.shape[1],))
     new_theta_0 = 0
     for t in range(T):
@@ -80,35 +80,20 @@ def perceptron(feature_matrix, labels, T):
 
 #pragma: coderesponse template
 def average_perceptron(feature_matrix, labels, T):
-    """
-    Runs the average perceptron algorithm on a given set of data. Runs T
-    iterations through the data set, there is no need to worry about
-    stopping early.
-
-    NOTE: Please use the previously implemented functions when applicable.
-    Do not copy paste code from previous parts.
-
-    NOTE: Iterate the data matrix by the orders returned by get_order(feature_matrix.shape[0])
-
-
-    Args:
-        feature_matrix -  A numpy matrix describing the given data. Each row
-            represents a single data point.
-        labels - A numpy array where the kth element of the array is the
-            correct classification of the kth row of the feature matrix.
-        T - An integer indicating how many times the perceptron algorithm
-            should iterate through the feature matrix.
-
-    Returns: A tuple where the first element is a numpy array with the value of
-    the average theta, the linear classification parameter, found after T
-    iterations through the feature matrix and the second element is a real
-    number with the value of the average theta_0, the offset classification
-    parameter, found after T iterations through the feature matrix.
-
-    Hint: It is difficult to keep a running average; however, it is simple to
-    find a sum and divide.
-    """
-    # Your code here
+    
+    new_theta = np.zeros((feature_matrix.shape[1],))
+    new_theta_0 = 0
+    sum_of_theta = new_theta
+    sum_of_theta_0 = new_theta_0
+    for t in range(T):
+        for i in get_order(feature_matrix.shape[0]):
+            updated_data = perceptron_single_step_update(feature_matrix[i],labels[i],new_theta,new_theta_0)
+            new_theta = updated_data[0]
+            new_theta_0 = updated_data[1]
+            sum_of_theta += new_theta
+            sum_of_theta_0 += new_theta_0
+            pass
+    return sum_of_theta/(feature_matrix.shape[0]*T), sum_of_theta_0/(feature_matrix.shape[0]*T)
     raise NotImplementedError
 #pragma: coderesponse end
 
