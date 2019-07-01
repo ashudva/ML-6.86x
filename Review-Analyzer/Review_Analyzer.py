@@ -144,23 +144,15 @@ def pegasos(feature_matrix, labels, T, L):
 
 #pragma: coderesponse template
 def classify(feature_matrix, theta, theta_0):
-    """
-    A classification function that uses theta and theta_0 to classify a set of
-    data points.
 
-    Args:
-        feature_matrix - A numpy matrix describing the given data. Each row
-            represents a single data point.
-                theta - A numpy array describing the linear classifier.
-        theta - A numpy array describing the linear classifier.
-        theta_0 - A real valued number representing the offset parameter.
-
-    Returns: A numpy array of 1s and -1s where the kth element of the array is
-    the predicted classification of the kth row of the feature matrix using the
-    given theta and theta_0. If a prediction is GREATER THAN zero, it should
-    be considered a positive classification.
-    """
-    # Your code here
+    labels = []
+    for feature_vector in feature_matrix:
+        # Data points exactly on the classifier are predicted as -1
+        if np.dot(theta,feature_vector) + theta_0 <= 0:
+            labels.append(-1)
+        elif np.dot(theta,feature_vector) + theta_0 > 0:
+            labels.append(1)
+    return np.array(labels)
     raise NotImplementedError
 #pragma: coderesponse end
 
@@ -173,32 +165,10 @@ def classifier_accuracy(
         train_labels,
         val_labels,
         **kwargs):
-    """
-    Trains a linear classifier using the perceptron algorithm with a given T
-    value. The classifier is trained on the train data. The classifier's
-    accuracy on the train and validation data is then returned.
-
-    Args:
-        classifier - A classifier function that takes arguments
-            (feature matrix, labels, **kwargs)
-        train_feature_matrix - A numpy matrix describing the training
-            data. Each row represents a single data point.
-        val_feature_matrix - A numpy matrix describing the training
-            data. Each row represents a single data point.
-        train_labels - A numpy array where the kth element of the array
-            is the correct classification of the kth row of the training
-            feature matrix.
-        val_labels - A numpy array where the kth element of the array
-            is the correct classification of the kth row of the validation
-            feature matrix.
-        **kwargs - Additional named arguments to pass to the classifier
-            (e.g. T or L)
-
-    Returns: A tuple in which the first element is the (scalar) accuracy of the
-    trained classifier on the training data and the second element is the
-    accuracy of the trained classifier on the validation data.
-    """
-    # Your code here
+    theta, theta_0 = classifier(train_feature_matrix, train_labels, **kwargs)
+    predicted_train_labels = classify(train_feature_matrix,theta,theta_0)
+    predicted_val_labels = classify(val_feature_matrix,theta,theta_0)
+    return accuracy(predicted_train_labels,train_labels), accuracy(predicted_val_labels,val_labels)
     raise NotImplementedError
 #pragma: coderesponse end
 
