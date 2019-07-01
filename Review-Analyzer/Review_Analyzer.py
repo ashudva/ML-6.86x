@@ -189,20 +189,22 @@ def extract_words(input_string):
 
 
 #pragma: coderesponse template
-def bag_of_words(texts):
+def bag_of_words(texts,file_name):
     """
     Inputs a list of string reviews
     Returns a dictionary of unique unigrams occurring over the input
 
-    Feel free to change this code as guided by Problem 9
+    Feel free to change this code
     """
-    # Your code here
+    with open(file_name, 'r', encoding = 'utf-8') as file:
+        stop_words = list(file.read().strip())
     dictionary = {} # maps word to unique index
     for text in texts:
-        word_list = extract_words(text)
-        for word in word_list:
-            if word not in dictionary:
-                dictionary[word] = len(dictionary)
+        if text not in stop_words:
+            word_list = extract_words(text)
+            for word in word_list:
+                if word not in dictionary:
+                    dictionary[word] = len(dictionary)
     return dictionary
 #pragma: coderesponse end
 
@@ -219,7 +221,6 @@ def extract_bow_feature_vectors(reviews, dictionary):
     Feel free to change this code as guided by Problem 9
     """
     # Your code here
-
     num_reviews = len(reviews)
     feature_matrix = np.zeros([num_reviews, len(dictionary)])
 
