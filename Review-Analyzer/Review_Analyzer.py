@@ -50,7 +50,7 @@ def perceptron_single_step_update(
         label,
         current_theta,
         current_theta_0):
-    
+
     for i in range(3):
         new_theta = current_theta
         new_theta_0 = current_theta_0
@@ -64,35 +64,16 @@ def perceptron_single_step_update(
 
 #pragma: coderesponse template
 def perceptron(feature_matrix, labels, T):
-    """
-    Runs the full perceptron algorithm on a given set of data. Runs T
-    iterations through the data set, there is no need to worry about
-    stopping early.
-
-    NOTE: Please use the previously implemented functions when applicable.
-    Do not copy paste code from previous parts.
-
-    NOTE: Iterate the data matrix by the orders returned by get_order(feature_matrix.shape[0])
-
-    Args:
-        feature_matrix -  A numpy matrix describing the given data. Each row
-            represents a single data point.
-        labels - A numpy array where the kth element of the array is the
-            correct classification of the kth row of the feature matrix.
-        T - An integer indicating how many times the perceptron algorithm
-            should iterate through the feature matrix.
-
-    Returns: A tuple where the first element is a numpy array with the value of
-    theta, the linear classification parameter, after T iterations through the
-    feature matrix and the second element is a real number with the value of
-    theta_0, the offset classification parameter, after T iterations through
-    the feature matrix.
-    """
-    # Your code here
+    
+    new_theta = np.zeros((feature_matrix.shape[1],))
+    new_theta_0 = 0
     for t in range(T):
         for i in get_order(feature_matrix.shape[0]):
-            # Your code here
+            updated_data = perceptron_single_step_update(feature_matrix[i],labels[i],new_theta,new_theta_0)
+            new_theta = updated_data[0]
+            new_theta_0 = updated_data[1]
             pass
+    return new_theta,new_theta_0
     raise NotImplementedError
 #pragma: coderesponse end
 
