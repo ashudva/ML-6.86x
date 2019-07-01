@@ -1,6 +1,7 @@
 from string import punctuation, digits
 import numpy as np
 import random
+from math import sqrt
 
 # Part I
 
@@ -123,35 +124,22 @@ def pegasos_single_step_update(
 
 #pragma: coderesponse template
 def pegasos(feature_matrix, labels, T, L):
-    """
-    Runs the Pegasos algorithm on a given set of data. Runs T
-    iterations through the data set, there is no need to worry about
-    stopping early.
 
-    For each update, set learning rate = 1/sqrt(t),
-    where t is a counter for the number of updates performed so far (between 1
-    and nT inclusive).
-
-    NOTE: Please use the previously implemented functions when applicable.
-    Do not copy paste code from previous parts.
-
-    Args:
-        feature_matrix - A numpy matrix describing the given data. Each row
-            represents a single data point.
-        labels - A numpy array where the kth element of the array is the
-            correct classification of the kth row of the feature matrix.
-        T - An integer indicating how many times the algorithm
-            should iterate through the feature matrix.
-        L - The lamba value being used to update the Pegasos
-            algorithm parameters.
-
-    Returns: A tuple where the first element is a numpy array with the value of
-    the theta, the linear classification parameter, found after T
-    iterations through the feature matrix and the second element is a real
-    number with the value of the theta_0, the offset classification
-    parameter, found after T iterations through the feature matrix.
-    """
-    # Your code here
+    new_theta = np.zeros((feature_matrix.shape[1],))
+    new_theta_0 = 0
+    update_count = 1
+    for t in range(T):
+        for i, feature_vector in enumerate(feature_matrix):
+            eta = 1/sqrt(update_count)
+            if labels[i] * (np.dot(new_theta,feature_vector) + new_theta_0) <= 1:
+                new_theta = new_theta*(1 - eta*L) + eta*labels[i]*feature_vector
+                new_theta_0 = new_theta_0 + eta*labels[i]
+                update_count += 1
+            else:
+                new_theta = (1 - eta*L)*new_theta
+                new_theta_0 = new_theta_0
+                update_count += 1
+    return new_theta, new_theta_0
     raise NotImplementedError
 #pragma: coderesponse end
 
