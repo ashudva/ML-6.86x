@@ -33,24 +33,13 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
 
 #pragma: coderesponse template
 def hinge_loss_full(feature_matrix, labels, theta, theta_0):
-    """
-    Finds the total hinge loss on a set of data given specific classification
-    parameters.
-
-    Args:
-        feature_matrix - A numpy matrix describing the given data. Each row
-            represents a single data point.
-        labels - A numpy array where the kth element of the array is the
-            correct classification of the kth row of the feature matrix.
-        theta - A numpy array describing the linear classifier.
-        theta_0 - A real valued number representing the offset parameter.
-
-
-    Returns: A real number representing the hinge loss associated with the
-    given dataset and parameters. This number should be the average hinge
-    loss across all of the points in the feature matrix.
-    """
-    # Your code here
+    hinge_loss_full = 0
+    shape = np.shape(feature_matrix)
+    for i, feature_vector in enumerate(feature_matrix):
+        z = labels[i]*(np.dot(feature_vector,theta) + theta_0)
+        if z < 1 :
+            hinge_loss_full += (1 - z)
+    return hinge_loss_full / shape[0]
     raise NotImplementedError
 #pragma: coderesponse end
 
