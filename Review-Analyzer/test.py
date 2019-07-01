@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import traceback
-import project1 as p1
+import Review_Analyzer as p1
 import numpy as np
 
 verbose = False
@@ -439,7 +439,7 @@ def check_extract_bow_feature_vectors():
         return
 
 def main():
-    log(green("PASS"), "Import project1")
+    log(green("PASS"), "Import Review-Analyzer")
     try:
         check_get_order()
         check_hinge_loss_single()

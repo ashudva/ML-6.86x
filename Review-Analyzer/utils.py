@@ -2,7 +2,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-import project1 as p1
+import Review-Analyzer as p1
 import sys
 
 if sys.version_info[0] < 3:

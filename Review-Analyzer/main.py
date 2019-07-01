@@ -1,4 +1,4 @@
-import project1 as p1
+import Review-Analyzer as p1
 import utils
 import numpy as np
 

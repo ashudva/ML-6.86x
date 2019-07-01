@@ -21,22 +21,12 @@ def get_order(n_samples):
 
 #pragma: coderesponse template
 def hinge_loss_single(feature_vector, label, theta, theta_0):
-    """
-    Finds the hinge loss on a single data point given specific classification
-    parameters.
-
-    Args:
-        feature_vector - A numpy array describing the given data point.
-        label - A real valued number, the correct classification of the data
-            point.
-        theta - A numpy array describing the linear classifier.
-        theta_0 - A real valued number representing the offset parameter.
-
-
-    Returns: A real number representing the hinge loss associated with the
-    given data point and parameters.
-    """
-    # Your code here
+    z = label*(np.dot(feature_vector,theta) + theta_0)
+    hinge_loss_single = 0
+    if z >= 1 :
+        return hinge_loss_single
+    elif z < 1 :
+        return 1 - z
     raise NotImplementedError
 #pragma: coderesponse end
 
