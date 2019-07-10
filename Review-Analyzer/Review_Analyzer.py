@@ -27,7 +27,7 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
     if z >= 1 :
         return hinge_loss_single
     elif z < 1 :
-        return 1 - z
+        return max(0, 1 - z)
     raise NotImplementedError
 #pragma: coderesponse end
 
@@ -39,7 +39,7 @@ def hinge_loss_full(feature_matrix, labels, theta, theta_0):
     for i, feature_vector in enumerate(feature_matrix):
         z = labels[i]*(np.dot(feature_vector,theta) + theta_0)
         if z < 1 :
-            hinge_loss_full += (1 - z)
+            hinge_loss_full += max(0, 1 - z)
     return hinge_loss_full / shape[0]
     raise NotImplementedError
 #pragma: coderesponse end
@@ -221,6 +221,7 @@ def extract_bow_feature_vectors(reviews, dictionary):
     Feel free to change this code as guided by Problem 9
     """
     # Your code here
+    word_count = 0
     num_reviews = len(reviews)
     feature_matrix = np.zeros([num_reviews, len(dictionary)])
 
@@ -228,7 +229,10 @@ def extract_bow_feature_vectors(reviews, dictionary):
         word_list = extract_words(text)
         for word in word_list:
             if word in dictionary:
-                feature_matrix[i, dictionary[word]] = 1
+                word_count += 1
+                feature_matrix[i, dictionary[word]] = word_count
+            else:
+                word_count = 0
     return feature_matrix
 #pragma: coderesponse end
 
