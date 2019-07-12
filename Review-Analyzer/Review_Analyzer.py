@@ -3,10 +3,7 @@ import numpy as np
 import random
 from math import sqrt
 
-# Part I
 
-
-#pragma: coderesponse template
 def get_order(n_samples):
     try:
         with open(str(n_samples) + '.txt') as fp:
@@ -17,22 +14,13 @@ def get_order(n_samples):
         indices = list(range(n_samples))
         random.shuffle(indices)
         return indices
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def hinge_loss_single(feature_vector, label, theta, theta_0):
     z = label*(np.dot(feature_vector,theta) + theta_0)
-    hinge_loss_single = 0
-    if z >= 1 :
-        return hinge_loss_single
-    elif z < 1 :
-        return max(0, 1 - z)
-    raise NotImplementedError
-#pragma: coderesponse end
+    return max(0, 1 - z)
 
 
-#pragma: coderesponse template
 def hinge_loss_full(feature_matrix, labels, theta, theta_0):
     hinge_loss_full = 0
     shape = np.shape(feature_matrix)
@@ -41,11 +29,8 @@ def hinge_loss_full(feature_matrix, labels, theta, theta_0):
         if z < 1 :
             hinge_loss_full += max(0, 1 - z)
     return hinge_loss_full / shape[0]
-    raise NotImplementedError
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def perceptron_single_step_update(
         feature_vector,
         label,
@@ -59,11 +44,8 @@ def perceptron_single_step_update(
             new_theta = new_theta + label*feature_vector
             new_theta_0 = new_theta_0 + label
     return new_theta,new_theta_0
-    raise NotImplementedError
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def perceptron(feature_matrix, labels, T):
 
     new_theta = np.zeros((feature_matrix.shape[1],))
@@ -75,11 +57,8 @@ def perceptron(feature_matrix, labels, T):
             new_theta_0 = updated_data[1]
             pass
     return new_theta,new_theta_0
-    raise NotImplementedError
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def average_perceptron(feature_matrix, labels, T):
 
     new_theta = np.zeros((feature_matrix.shape[1],))
@@ -95,11 +74,8 @@ def average_perceptron(feature_matrix, labels, T):
             sum_of_theta_0 += new_theta_0
             pass
     return sum_of_theta/(feature_matrix.shape[0]*T), sum_of_theta_0/(feature_matrix.shape[0]*T)
-    raise NotImplementedError
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def pegasos_single_step_update(
         feature_vector,
         label,
@@ -118,11 +94,8 @@ def pegasos_single_step_update(
             new_theta = (1 - eta*L)*new_theta
             new_theta_0 = new_theta_0
     return new_theta,new_theta_0
-    raise NotImplementedError
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def pegasos(feature_matrix, labels, T, L):
 
     new_theta = np.zeros((feature_matrix.shape[1],))
@@ -136,13 +109,8 @@ def pegasos(feature_matrix, labels, T, L):
             new_theta = updated_data[0]
             new_theta_0 = updated_data[1]
     return new_theta, new_theta_0
-    raise NotImplementedError
-#pragma: coderesponse end
-
-# Part II
 
 
-#pragma: coderesponse template
 def classify(feature_matrix, theta, theta_0):
 
     labels = []
@@ -153,11 +121,8 @@ def classify(feature_matrix, theta, theta_0):
         elif np.dot(theta,feature_vector) + theta_0 > 0:
             labels.append(1)
     return np.array(labels)
-    raise NotImplementedError
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def classifier_accuracy(
         classifier,
         train_feature_matrix,
@@ -169,11 +134,8 @@ def classifier_accuracy(
     predicted_train_labels = classify(train_feature_matrix,theta,theta_0)
     predicted_val_labels = classify(val_feature_matrix,theta,theta_0)
     return accuracy(predicted_train_labels,train_labels), accuracy(predicted_val_labels,val_labels)
-    raise NotImplementedError
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def extract_words(input_string):
     """
     Helper function for bag_of_words()
@@ -185,16 +147,12 @@ def extract_words(input_string):
         input_string = input_string.replace(c, ' ' + c + ' ')
 
     return input_string.lower().split()
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def bag_of_words(texts,file_name):
     """
     Inputs a list of string reviews
     Returns a dictionary of unique unigrams occurring over the input
-
-    Feel free to change this code
     """
     with open(file_name, 'r', encoding = 'utf-8') as file:
         stop_words = list(file.read().strip())
@@ -206,10 +164,8 @@ def bag_of_words(texts,file_name):
                 if word not in dictionary:
                     dictionary[word] = len(dictionary)
     return dictionary
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def extract_bow_feature_vectors(reviews, dictionary):
     """
     Inputs a list of string reviews
@@ -217,10 +173,7 @@ def extract_bow_feature_vectors(reviews, dictionary):
     Returns the bag-of-words feature matrix representation of the data.
     The returned matrix is of shape (n, m), where n is the number of reviews
     and m the total number of entries in the dictionary.
-
-    Feel free to change this code as guided by Problem 9
     """
-    # Your code here
     word_count = 0
     num_reviews = len(reviews)
     feature_matrix = np.zeros([num_reviews, len(dictionary)])
@@ -234,14 +187,11 @@ def extract_bow_feature_vectors(reviews, dictionary):
             else:
                 word_count = 0
     return feature_matrix
-#pragma: coderesponse end
 
 
-#pragma: coderesponse template
 def accuracy(preds, targets):
     """
     Given length-N vectors containing predicted and target labels,
     returns the percentage and number of correct predictions.
     """
     return (preds == targets).mean()
-#pragma: coderesponse end
