@@ -5,6 +5,8 @@ Machine Learning Projects Repository
 1. Review Analyzer
 2. Digit Recognition (One Digit)
 3. Digit Recognition (Two Digits)
+4. Collaborative Filtering
+5. Text Based Game
 
 ## Review Analyzer
 
