@@ -29,3 +29,13 @@ The MNIST database contains binary images of handwritten digits commonly used to
 Sample Digit Images:
 
 ![Image of Digit 6](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/03f49ce9ab37fa92d84b0c9e70542014/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_6.png) ![Image of Digit 8](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/e7123412da031f62e082afb10bdfa655/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_8.png)  ![Image of Digit 8](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/280748cc6f7447b43db835bf0c1700d8/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_x.png) ![Image of Digit 6](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/b56e40dfe8c00d6c9b54956f21e04f92/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_6-2.png)
+
+> ## Learning Metod 1 - *Linear Regression : Closed form solution*
+>
+>We can apply a linear regression model, as the labels are numbers from 0-9 .
+>
+>Function `closed_form` that computes this closed form solution given the features  `X` , labels  `Y`  and the regularization parameter  `λ` .
+>
+>Calculate test error of linear regression algorithm for different  λ using function `compute_test_error_linear(test_x, Y, theta)` .
+>
+>Results: No matter what  λ  factor we try, the test error is large when we use Linear regression
