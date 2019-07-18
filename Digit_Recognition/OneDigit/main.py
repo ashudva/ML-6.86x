@@ -9,21 +9,13 @@ from softmax import *
 from features import *
 from kernel import *
 
-#######################################################################
-# 1. Introduction
-#######################################################################
-
-# Load MNIST data:
+# 1. Load MNIST data:
 train_x, train_y, test_x, test_y = get_MNIST_data()
 # Plot the first 20 images of the training set.
 plot_images(train_x[0:20, :])
 
-#######################################################################
+
 # 2. Linear Regression with Closed Form Solution
-#######################################################################
-
-# TODO: first fill out functions in linear_regression.py, or the below functions will not work
-
 def run_linear_regression_on_MNIST(lambda_factor=1):
     """
     Trains linear regression, classifies test data, computes test error on test set
@@ -37,18 +29,11 @@ def run_linear_regression_on_MNIST(lambda_factor=1):
     theta = closed_form(train_x_bias, train_y, lambda_factor)
     test_error = compute_test_error_linear(test_x_bias, test_y, theta)
     return test_error
-
-
-# Don't run this until the relevant functions in linear_regression.py have been fully implemented.
+# Print test error using linear_regression: Closed Form Solution
 print('Linear Regression test_error =', run_linear_regression_on_MNIST(lambda_factor=1))
 
 
-#######################################################################
-# 3. Support Vector Machine
-#######################################################################
-
-# TODO: first fill out functions in svm.py, or the below functions will not work
-
+# 3. Support Vector Machine (One vs. Rest and Multiclass)
 def run_svm_one_vs_rest_on_MNIST():
     """
     Trains svm, classifies test data, computes test error on test set
@@ -82,12 +67,8 @@ def run_multiclass_svm_on_MNIST():
 
 print('Multiclass SVM test_error:', run_multiclass_svm_on_MNIST())
 
-#######################################################################
 # 4. Multinomial (Softmax) Regression and Gradient Descent
-#######################################################################
-
 # TODO: first fill out functions in softmax.py, or run_softmax_on_MNIST will not work
-
 def run_softmax_on_MNIST(temp_parameter=1):
     """
     Trains softmax, classifies test data, computes test error, and plots cost function
@@ -119,10 +100,7 @@ print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1))
 # TODO: Find the error rate for temp_parameter = [.5, 1.0, 2.0]
 #      Remember to return the tempParameter to 1, and re-run run_softmax_on_MNIST
 
-#######################################################################
 # 6. Changing Labels
-#######################################################################
-
 def run_softmax_on_MNIST_mod3(temp_parameter=1):
     """
     Trains Softmax regression on digit (mod 3) classifications.
@@ -137,12 +115,8 @@ def run_softmax_on_MNIST_mod3(temp_parameter=1):
 
 
 
-#######################################################################
 # 7. Classification Using Manually Crafted Features
-#######################################################################
-
 ## Dimensionality reduction via PCA ##
-
 # TODO: First fill out the PCA functions in features.py as the below code depends on them.
 
 n_components = 18
