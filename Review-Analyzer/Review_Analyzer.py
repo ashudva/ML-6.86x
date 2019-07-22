@@ -22,13 +22,10 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
 
 
 def hinge_loss_full(feature_matrix, labels, theta, theta_0):
-    hinge_loss_full = 0
-    shape = np.shape(feature_matrix)
-    for i, feature_vector in enumerate(feature_matrix):
-        z = labels[i]*(np.dot(feature_vector,theta) + theta_0)
-        if z < 1 :
-            hinge_loss_full += max(0, 1 - z)
-    return hinge_loss_full / shape[0]
+    loss = 0
+    for i in range(len(feature_matrix)):
+        loss += hinge_loss_single(feature_matrix[i], labels[i], theta, theta_0)
+    return loss / len(labels)
 
 
 def perceptron_single_step_update(
