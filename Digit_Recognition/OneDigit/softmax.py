@@ -5,6 +5,8 @@ from utils import *
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.sparse as sparse
+# if you want to use scipy version of softmax
+#from scipy.special import softmax
 
 
 def augment_feature_vector(X):
@@ -31,8 +33,10 @@ def compute_probabilities(X, theta, temp_parameter):
     Returns:
         H - (k, n) NumPy array, where each entry H[j][i] is the probability that X[i] is labeled as j
     """
-    #YOUR CODE HERE
-    raise NotImplementedError
+    d = np.dot(theta,X.T)/temp_parameter - np.max(np.dot(theta,X.T)/temp_parameter,axis=0)
+    soft_max = np.exp(d)/sum(np.exp(d))
+    # soft_max = softmax((np.dot(theta,X.T)/temp_parameter)- np.max(np.dot(theta,X.T)/temp_parameter),axis=0)
+    return soft_max
 
 def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     """
@@ -50,8 +54,16 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     Returns
         c - the cost value (scalar)
     """
-    #YOUR CODE HERE
-    raise NotImplementedError
+    a = 0
+    prob = compute_probabilities(X,theta,temp_parameter)
+    for i, y in enumerate(Y):
+        for j in range(theta.shape[0]):
+            if y == j:
+                a += np.log(prob[j][i])
+    # rp = regularization parameter
+    rp = (lambda_factor/2)*(np.sum(np.square(theta)))
+    error_fraction = (1/X.shape[0])*a
+    return -error_fraction + rp
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
     """
@@ -70,8 +82,16 @@ def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_param
     Returns:
         theta - (k, d) NumPy array that is the final value of parameters theta
     """
-    #YOUR CODE HERE
-    raise NotImplementedError
+    itemp=1./temp_parameter
+    num_examples = X.shape[0]
+    num_labels = theta.shape[0]
+    probabilities = compute_probabilities(X, theta, temp_parameter)
+    # M[i][j] = 1 if y^(j) = i and 0 otherwise.
+    M = sparse.coo_matrix(([1]*num_examples, (Y,range(num_examples))), shape=(num_labels,num_examples)).toarray()
+    non_regularized_gradient = np.dot(M-probabilities, X)
+    non_regularized_gradient *= -itemp/num_examples
+    return theta - alpha * (non_regularized_gradient + lambda_factor * theta)
+
 
 def update_y(train_y, test_y):
     """
