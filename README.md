@@ -29,7 +29,7 @@ YUMMY! You would never guess that they're sugar-free and it's so great that you 
 >#### 3. Pegasos Algorithm
 >*Training Accuracy = 0.9143 , Validation Accuracy = 0.7900 , Best T = 25, Best l = 0.01*
 
-#### Most Explanatory Words for the dataset:
+#### Most Explanatory Words for positively labeled reviews:
 1. Delecious
 2. Great
 3. !
