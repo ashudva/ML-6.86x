@@ -17,17 +17,36 @@ Review | 	label
 Nasty No flavor. The candy is just red, No flavor. Just plan and chewy. I would never buy them again | -1
 YUMMY! You would never guess that they're sugar-free and it's so great that you can eat them pretty much guilt free! i was so impressed that i've ordered some for myself (w dark chocolate) to take to the office. These are just EXCELLENT! | +1
 
+### Hyperparameters Tuning
+#### 1. Perceptron Algorithm
+`Best T = 25`
+![Perceptron Algo Accuracy vs. T](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsT_Percep.png)
+
+#### 2. Average Perceptron Algorithm
+`Best T = 25`
+![Average Perceptron Algo Accuracy vs. T](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsT_AvgPercep.png)
+
+#### 3. Pegasos Algorithm
+`Best T = 25`
+![Pegasos Algo Accuracy vs. T](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsT_Pegasos.png)
+
+`Best l = 0.01`
+![Pegasos Algo Accuracy vs. L](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsL_Pegasos.png)
+
 ### Use classifiers on the food review dataset, using some simple text features.
-
 >#### In order to automatically analyze reviews we will implement & compare the performance of the algorithms :
->#### 1. Perceptron Algorithm
->*Training Accuracy = 0.8157 , Validation Accuracy = 0.7160 , Best T = 25*
 
->#### 2. Average Perceptron Algorithm
->*Training Accuracy = 0.9728 , Validation Accuracy = 0.7980 , Best T = 25*
+#### 1. Perceptron Algorithm
+*Training Accuracy = 0.8157 , Validation Accuracy = 0.7160 , Best T = 25*
+![Perceptron Algo Classifier](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/percep.png)
 
->#### 3. Pegasos Algorithm
->*Training Accuracy = 0.9143 , Validation Accuracy = 0.7900 , Best T = 25, Best l = 0.01*
+#### 2. Average Perceptron Algorithm
+*Training Accuracy = 0.9728 , Validation Accuracy = 0.7980 , Best T = 25*
+![Average Perceptron Algo Classifier](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/avg%20percep.png)
+
+#### 3. Pegasos Algorithm
+*Training Accuracy = 0.9143 , Validation Accuracy = 0.7900 , Best T = 25, Best l = 0.01*
+![Pegasos Algo Classifier](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/pegasos.png)
 
 #### Most Explanatory Words for positively labeled reviews:
 1. Delecious
@@ -41,7 +60,7 @@ YUMMY! You would never guess that they're sugar-free and it's so great that you 
 9. Love
 10. Quickly
 
-# Predictions
+### Predictions
 >making predictions usig **Pegasos** `T = 25 & L = 0.01`
 #### 1. Normal features pegasos
 Training Accuracy = 0.9185
@@ -53,6 +72,8 @@ Test Accuracy = 0.8080
 Training Accuracy = 0.8928
 Test Accuracy = 0.7700
 
+### Results
+![Prediction Results](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/Predictions.jpg)
 
 ## Digit Recognition (One Digit)
 
