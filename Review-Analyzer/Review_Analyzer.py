@@ -138,17 +138,30 @@ def pegasos_single_step_update(
         eta,
         current_theta,
         current_theta_0):
+    """
+    Properly updates the classification parameter, theta and theta_0, on a
+    single step of the Pegasos algorithm
 
-    for i in range(3):
-        new_theta = current_theta
-        new_theta_0 = current_theta_0
-        if label * (np.dot(current_theta,feature_vector) + current_theta_0) <= 1:
-            new_theta = new_theta*(1 - eta*L) + eta*label*feature_vector
-            new_theta_0 = new_theta_0 + eta*label
-        else:
-            new_theta = (1 - eta*L)*new_theta
-            new_theta_0 = new_theta_0
-    return new_theta,new_theta_0
+    Args:
+        feature_vector - A numpy array describing a single data point.
+        label - The correct classification of the feature vector.
+        L - The lamba value being used to update the parameters.
+        eta - Learning rate to update parameters.
+        current_theta - The current theta being used by the Pegasos
+            algorithm before this update.
+        current_theta_0 - The current theta_0 being used by the
+            Pegasos algorithm before this update.
+
+    Returns: A tuple where the first element is a numpy array with the value of
+    theta after the current update has completed and the second element is a
+    real valued number with the value of theta_0 after the current updated has
+    completed.
+    """
+    mult = 1 - (eta * L)
+    if label * (np.dot(feature_vector, current_theta) + current_theta_0) <= 1:
+        return ((mult * current_theta) + (eta * label * feature_vector),
+                (current_theta_0) + (eta * label))
+    return (mult * current_theta, current_theta_0)
 
 
 def pegasos(feature_matrix, labels, T, L):
