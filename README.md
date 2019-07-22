@@ -17,6 +17,16 @@ Review | 	label
 Nasty No flavor. The candy is just red, No flavor. Just plan and chewy. I would never buy them again | -1
 YUMMY! You would never guess that they're sugar-free and it's so great that you can eat them pretty much guilt free! i was so impressed that i've ordered some for myself (w dark chocolate) to take to the office. These are just EXCELLENT! | +1
 
+>## In order to automatically analyze reviews we will implement & compare the performance of the algorithms :
+
+>1. Perceptron Algorithm
+>2. Average Perceptron Algorithm
+>3. Pegasos Algorithm
+
+>## Use classifiers on the food review dataset, using some simple text features.
+
+>## Experiment with additional features and explore their impact on classifier performance.
+
 
 ## Digit Recognition (One Digit)
 
