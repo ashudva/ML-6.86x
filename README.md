@@ -17,17 +17,36 @@ Review | 	label
 Nasty No flavor. The candy is just red, No flavor. Just plan and chewy. I would never buy them again | -1
 YUMMY! You would never guess that they're sugar-free and it's so great that you can eat them pretty much guilt free! i was so impressed that i've ordered some for myself (w dark chocolate) to take to the office. These are just EXCELLENT! | +1
 
+### Hyperparameters Tuning & Learning Algorithms
+#### 1. Perceptron Algorithm
+`Best T = 25`
+![Perceptron Algo Accuracy vs. T](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsT_Percep.png)
+
+#### 2. Average Perceptron Algorithm
+`Best T = 25`
+![Average Perceptron Algo Accuracy vs. T](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsT_AvgPercep.png)
+
+#### 3. Pegasos Algorithm
+`Best T = 25`
+![Pegasos Algo Accuracy vs. T](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsT_Pegasos.png)
+
+`Best l = 0.01`
+![Pegasos Algo Accuracy vs. L](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsL_Pegasos.png)
+
 ### Use classifiers on the food review dataset, using some simple text features.
-
 >#### In order to automatically analyze reviews we will implement & compare the performance of the algorithms :
->#### 1. Perceptron Algorithm
->*Training Accuracy = 0.8157 , Validation Accuracy = 0.7160 , Best T = 25*
 
->#### 2. Average Perceptron Algorithm
->*Training Accuracy = 0.9728 , Validation Accuracy = 0.7980 , Best T = 25*
+#### 1. Perceptron Algorithm
+*Training Accuracy = 0.8157 , Validation Accuracy = 0.7160 , Best T = 25*
+![Perceptron Algo Classifier](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/percep.png)
 
->#### 3. Pegasos Algorithm
->*Training Accuracy = 0.9143 , Validation Accuracy = 0.7900 , Best T = 25, Best l = 0.01*
+#### 2. Average Perceptron Algorithm
+*Training Accuracy = 0.9728 , Validation Accuracy = 0.7980 , Best T = 25*
+![Average Perceptron Algo Classifier](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/avg%20percep.png)
+
+#### 3. Pegasos Algorithm
+*Training Accuracy = 0.9143 , Validation Accuracy = 0.7900 , Best T = 25, Best l = 0.01*
+![Pegasos Algo Classifier](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/pegasos.png)
 
 #### Most Explanatory Words for positively labeled reviews:
 1. Delecious
@@ -41,7 +60,7 @@ YUMMY! You would never guess that they're sugar-free and it's so great that you 
 9. Love
 10. Quickly
 
-# Predictions
+### Predictions
 >making predictions usig **Pegasos** `T = 25 & L = 0.01`
 #### 1. Normal features pegasos
 Training Accuracy = 0.9185
@@ -53,6 +72,8 @@ Test Accuracy = 0.8080
 Training Accuracy = 0.8928
 Test Accuracy = 0.7700
 
+### Results
+![Prediction Results](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/Predictions.jpg)
 
 ## Digit Recognition (Non-Linear Classifier & Kernel)
 
@@ -66,16 +87,14 @@ Sample Digit Images:
 
 ![Image of Digit 6](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/03f49ce9ab37fa92d84b0c9e70542014/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_6.png) ![Image of Digit 8](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/e7123412da031f62e082afb10bdfa655/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_8.png)  ![Image of Digit 8](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/280748cc6f7447b43db835bf0c1700d8/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_x.png) ![Image of Digit 6](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/b56e40dfe8c00d6c9b54956f21e04f92/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_6-2.png)
 
-> ## Learning Method 1 - *Linear Regression : Closed form solution*
->
->We can apply a linear regression model, as the labels are numbers from 0-9 .
->
->Function `closed_form` that computes this closed form solution given the features  `X` , labels  `Y`  and the regularization parameter  `λ` .
->
->Calculate test error of linear regression algorithm for different  λ using function `compute_test_error_linear(test_x, Y, theta)` .
->
->Results: No matter what  λ  factor we try, the test error is large when we use Linear regression
 
+### Learning Algorithms 
+##### Linear Regression (Closed form solution)
+
+1. We can apply a linear regression model, as the *labels are numbers from 0-9* .
+2. Function `closed_form` that computes this closed form solution given the features  `X` , labels  `Y`  and the regularization parameter  `λ` .
+3. Calculate test error of linear regression algorithm for different  `λ` using function `compute_test_error_linear(test_x, Y, theta)` .
+4. Results: No matter what `λ`  factor we try, the test error is large when we use Linear regression
 
 ## Digit Recognition (Neural Networks & Deep Learning)
 
