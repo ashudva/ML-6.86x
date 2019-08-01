@@ -3,8 +3,8 @@ Machine Learning Projects Repository
 
 # Projects
 1. Review Analyzer
-2. Digit Recognition (One Digit)
-3. Digit Recognition (Two Digits)
+2. Digit Recognition (Non-Linear Classifier & Kernel)
+3. Digit Recognition (Neural Networks & Deep Learning)
 4. Collaborative Filtering
 5. Text Based Game
 
@@ -54,7 +54,7 @@ Training Accuracy = 0.8928
 Test Accuracy = 0.7700
 
 
-## Digit Recognition (One Digit)
+## Digit Recognition (Non-Linear Classifier & Kernel)
 
 **Digit Recognition** using the *MNIST (Mixed National Institute of Standards and Technology)* database.
 
@@ -75,3 +75,8 @@ Sample Digit Images:
 >Calculate test error of linear regression algorithm for different  λ using function `compute_test_error_linear(test_x, Y, theta)` .
 >
 >Results: No matter what  λ  factor we try, the test error is large when we use Linear regression
+
+
+## Digit Recognition (Neural Networks & Deep Learning)
+
+>This project uses PyTorch for *implementing neural networks* & SciPy to handle *Sparse Matrices*
