@@ -32,6 +32,15 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
     Returns: A real number representing the hinge loss associated with the
     given data point and parameters.
     """
+
+    """
+    Another implementation:
+
+    z  = label(theta @ feature_vector + theta_0)
+    return max(0.0, 1 - z)
+
+    @ is shorthand for dot product
+    """
     y = np.dot(theta, feature_vector) + theta_0
     loss = max(0.0, 1 - y * label)
     return loss
