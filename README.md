@@ -5,7 +5,7 @@ Machine Learning Projects Repository
 1. Review Analyzer
 2. Digit Recognition (Non-Linear Classifier & Kernel)
 3. Digit Recognition (Neural Networks & Deep Learning)
-4. Collaborative Filtering
+4. Collaborative Filtering via Gaussian Mixtures
 5. Text Based Game
 
 ## Review Analyzer
