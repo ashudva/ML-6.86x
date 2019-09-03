@@ -1,5 +1,4 @@
-# ML-6.86x [![BCH compliance](https://bettercodehub.com/edge/badge/ashudva/ML-6.86x?branch=master)](https://bettercodehub.com/)
-
+# ML-6.86x [![BCH compliance](https://bettercodehub.com/edge/badge/ashudva/ML-6.86x?branch=master)](https://bettercodehub.com/) [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ashudva/ML-6.86x)
 Machine Learning Projects Repository
 
 # Projects
@@ -21,33 +20,33 @@ YUMMY! You would never guess that they're sugar-free and it's so great that you 
 ### Hyperparameters Tuning & Learning Algorithms
 #### 1. Perceptron Algorithm
 `Best T = 25`
-![Perceptron Algo Accuracy vs. T](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsT_Percep.png)
+![Perceptron Algo Accuracy vs. T](Review-Analyzer/Plots/AvsT_Percep.png)
 
 #### 2. Average Perceptron Algorithm
 `Best T = 25`
-![Average Perceptron Algo Accuracy vs. T](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsT_AvgPercep.png)
+![Average Perceptron Algo Accuracy vs. T](Review-Analyzer/Plots/AvsT_AvgPercep.png)
 
 #### 3. Pegasos Algorithm
 `Best T = 25`
-![Pegasos Algo Accuracy vs. T](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsT_Pegasos.png)
+![Pegasos Algo Accuracy vs. T](Review-Analyzer/Plots/AvsT_Pegasos.png)
 
 `Best l = 0.01`
-![Pegasos Algo Accuracy vs. L](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/AvsL_Pegasos.png)
+![Pegasos Algo Accuracy vs. L](Review-Analyzer/Plots/AvsL_Pegasos.png)
 
 ### Use classifiers on the food review dataset, using some simple text features.
 >#### In order to automatically analyze reviews we will implement & compare the performance of the algorithms :
 
 #### 1. Perceptron Algorithm
 *Training Accuracy = 0.8157 , Validation Accuracy = 0.7160 , Best T = 25*
-![Perceptron Algo Classifier](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/percep.png)
+![Perceptron Algo Classifier](Review-Analyzer/Plots/percep.png)
 
 #### 2. Average Perceptron Algorithm
 *Training Accuracy = 0.9728 , Validation Accuracy = 0.7980 , Best T = 25*
-![Average Perceptron Algo Classifier](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/avg%20percep.png)
+![Average Perceptron Algo Classifier](Review-Analyzer/Plots/avg%20percep.png)
 
 #### 3. Pegasos Algorithm
 *Training Accuracy = 0.9143 , Validation Accuracy = 0.7900 , Best T = 25, Best l = 0.01*
-![Pegasos Algo Classifier](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/pegasos.png)
+![Pegasos Algo Classifier](Review-Analyzer/Plots/pegasos.png)
 
 #### Most Explanatory Words for positively labeled reviews:
 1. Delecious
@@ -74,7 +73,7 @@ Training Accuracy = 0.8928
 Test Accuracy = 0.7700
 
 ### Results
-![Prediction Results](https://github.com/ashudva/ML-6.86x/blob/master/Review-Analyzer/Plots/Predictions.jpg)
+![Prediction Results](Review-Analyzer/Plots/Predictions.jpg)
 
 ## Digit Recognition (Non-Linear Classifier & Kernel)
 
