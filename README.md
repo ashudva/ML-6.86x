@@ -1,4 +1,5 @@
-# ML-6.86x
+# ML-6.86x [![BCH compliance](https://bettercodehub.com/edge/badge/ashudva/ML-6.86x?branch=master)](https://bettercodehub.com/)
+
 Machine Learning Projects Repository
 
 # Projects
