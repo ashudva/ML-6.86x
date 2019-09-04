@@ -22,7 +22,6 @@ NUM_ACTIONS = len(ACTIONS)
 NUM_OBJECTS = len(OBJECTS)
 
 
-# pragma: coderesponse template
 def epsilon_greedy(state_1, state_2, q_func, epsilon):
     """Returns an action selected by an epsilon-Greedy exploration policy
 
@@ -34,15 +33,15 @@ def epsilon_greedy(state_1, state_2, q_func, epsilon):
     Returns:
         (int, int): the indices describing the action/object to take
     """
-    # TODO Your code here
-    action_index, object_index = None, None
+    if np.random.random() > epsilon:
+        q_state = q_func[state_1, state_2]
+        action_index, object_index = np.unravel_index(q_state.argmax(), q_state.shape)
+    else:
+        action_index, object_index = np.random.randint(NUM_ACTIONS), np.random.randint(NUM_OBJECTS)
     return (action_index, object_index)
 
 
-# pragma: coderesponse end
 
-
-# pragma: coderesponse template
 def tabular_q_learning(q_func, current_state_1, current_state_2, action_index,
                        object_index, reward, next_state_1, next_state_2,
                        terminal):
@@ -72,10 +71,6 @@ def tabular_q_learning(q_func, current_state_1, current_state_2, action_index,
     return None
 
 
-# pragma: coderesponse end
-
-
-# pragma: coderesponse template
 def run_episode(for_training):
     """ Runs one episode
     If for training, update Q function
@@ -115,8 +110,6 @@ def run_episode(for_training):
     if not for_training:
         return epi_reward
 
-
-# pragma: coderesponse end
 
 
 def run_epoch():
