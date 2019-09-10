@@ -6,7 +6,7 @@ Machine Learning Projects Repository
 2. Digit Recognition (Non-Linear Classifier & Kernel)
 3. Digit Recognition (Neural Networks & Deep Learning)
 4. Collaborative Filtering via Gaussian Mixtures
-5. Text Based Game
+5. Home World Game (Autonomous Game Agent using RL)
 
 ## Review Analyzer
 
@@ -88,7 +88,7 @@ Sample Digit Images:
 ![Image of Digit 6](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/03f49ce9ab37fa92d84b0c9e70542014/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_6.png) ![Image of Digit 8](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/e7123412da031f62e082afb10bdfa655/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_8.png)  ![Image of Digit 8](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/280748cc6f7447b43db835bf0c1700d8/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_x.png) ![Image of Digit 6](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/b56e40dfe8c00d6c9b54956f21e04f92/asset-v1:MITx+6.86x+1T2019+type@asset+block/images_6-2.png)
 
 
-### Learning Algorithms 
+### Learning Algorithms
 ##### Linear Regression (Closed form solution)
 
 1. We can apply a linear regression model, as the *labels are numbers from 0-9* .
