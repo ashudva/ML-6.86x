@@ -8,7 +8,7 @@ import utils
 DEBUG = False
 
 GAMMA = 0.5  # discounted factor
-TRAINING_EP = 0.5  # epsilon-greedy parameter for training
+TRAINING_EP = 0.5 # epsilon-greedy parameter for training
 TESTING_EP = 0.05  # epsilon-greedy parameter for testing
 NUM_RUNS = 10
 NUM_EPOCHS = 200
@@ -135,7 +135,9 @@ def run_epoch():
 
 
 def run():
-    """Returns array of test reward per epoch for one run"""
+    """Returns array of test reward per epoch for one run
+        EWMA : Exponentially weighted moving average
+        """
     global q_func
     q_func = np.zeros((NUM_ROOM_DESC, NUM_QUESTS, NUM_ACTIONS, NUM_OBJECTS))
 
