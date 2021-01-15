@@ -1,14 +1,14 @@
 import Review_Analyzer as p1
 import utils
 import numpy as np
-
+import os
+cwd = os.getcwd()
 #-------------------------------------------------------------------------------
 # Data loading
 #-------------------------------------------------------------------------------
-
-train_data = utils.load_data('reviews_train.tsv')
-val_data = utils.load_data('reviews_val.tsv')
-test_data = utils.load_data('reviews_test.tsv')
+train_data = utils.load_data(cwd + '\\Review-Analyzer\\reviews_train.tsv')
+val_data = utils.load_data(cwd + '\\Review-Analyzer\\reviews_val.tsv')
+test_data = utils.load_data(cwd + '\\Review-Analyzer\\reviews_test.tsv')
 
 train_texts, train_labels = zip(*((sample['text'], sample['sentiment']) for sample in train_data))
 val_texts, val_labels = zip(*((sample['text'], sample['sentiment']) for sample in val_data))
@@ -24,7 +24,7 @@ test_bow_features = p1.extract_bow_feature_vectors(test_texts, dictionary)
 # Calculate theta & theta_0 using each algorithm
 #-------------------------------------------------------------------------------
 
-toy_features, toy_labels = toy_data = utils.load_toy_data('toy_data.tsv')
+toy_features, toy_labels = toy_data = utils.load_toy_data(cwd + '\\Review-Analyzer\\toy_data.tsv')
 
 T = 10
 L = 0.2
