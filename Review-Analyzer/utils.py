@@ -97,8 +97,8 @@ def plot_toy_data(algo_name, features, labels, thetas):
     """
     # plot the points with labels represented as colors
     plt.subplots()
-    colors = ['b' if label == 1 else 'r' for label in labels]
-    plt.scatter(features[:, 0], features[:, 1], s=40, c=colors)
+    colors = ['darkcyan' if label == 1 else 'salmon' for label in labels]
+    plt.scatter(features[:, 0], features[:, 1], s=30, c=colors)
     xmin, xmax = plt.axis()[:2]
 
     # plot the decision boundary

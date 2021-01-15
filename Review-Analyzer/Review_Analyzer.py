@@ -1,7 +1,8 @@
 from string import punctuation, digits
 import numpy as np
 import random
-
+import os
+cwd = os.getcwd()
 
 def get_order(n_samples):
     try:
@@ -32,16 +33,7 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
     Returns: A real number representing the hinge loss associated with the
     given data point and parameters.
     """
-
-    """
-    Another implementation:
-
-    z  = label(theta @ feature_vector + theta_0)
-    return max(0.0, 1 - z)
-
-    @ is shorthand for dot product
-    """
-    y = np.dot(theta, feature_vector) + theta_0
+    y = theta @ feature_vector + theta_0
     loss = max(0.0, 1 - y * label)
     return loss
 
@@ -92,7 +84,7 @@ def perceptron_single_step_update(
     real valued number with the value of theta_0 after the current updated has
     completed.
     """
-    if label * (np.dot(current_theta, feature_vector) + current_theta_0) <= 0:
+    if label * current_theta @ feature_vector + current_theta_0 <= 0:
         current_theta += label * feature_vector
         current_theta_0 += label
     return (current_theta, current_theta_0)
@@ -103,9 +95,6 @@ def perceptron(feature_matrix, labels, T):
     Runs the full perceptron algorithm on a given set of data. Runs T
     iterations through the data set, there is no need to worry about
     stopping early.
-
-    NOTE: Please use the previously implemented functions when applicable.
-    Do not copy paste code from previous parts.
 
     Args:
         feature_matrix -  A numpy matrix describing the given data. Each row
@@ -137,9 +126,6 @@ def average_perceptron(feature_matrix, labels, T):
     iterations through the data set, there is no need to worry about
     stopping early.
 
-    NOTE: Please use the previously implemented functions when applicable.
-    Do not copy paste code from previous parts.
-
     Args:
         feature_matrix -  A numpy matrix describing the given data. Each row
             represents a single data point.
@@ -153,9 +139,6 @@ def average_perceptron(feature_matrix, labels, T):
     iterations through the feature matrix and the second element is a real
     number with the value of the average theta_0, the offset classification
     parameter, found after T iterations through the feature matrix.
-
-    Hint: It is difficult to keep a running average; however, it is simple to
-    find a sum and divide.
     """
     (nsamples, nfeatures) = feature_matrix.shape
     theta = np.zeros(nfeatures)
@@ -214,9 +197,6 @@ def pegasos(feature_matrix, labels, T, L):
     where t is a counter for the number of updates performed so far (between 1
     and nT inclusive).
 
-    NOTE: Please use the previously implemented functions when applicable.
-    Do not copy paste code from previous parts.
-
     Args:
         feature_matrix - A numpy matrix describing the given data. Each row
             represents a single data point.
@@ -245,6 +225,21 @@ def pegasos(feature_matrix, labels, T, L):
                 feature_matrix[i], labels[i], L, eta, theta, theta_0)
     return (theta, theta_0)
 
+def predict(feature_vector, theta, theta_0):
+    """
+    Predicts the label of the feature vector using the parameters theta, and theta_0
+
+    Args:
+         feature_vector - A n-d numpy array with n features
+         theta - parameter vector with size equal to feature vector
+         theta_0 - offset parameter
+    
+    Returns: Predicted label of the feature vector either +1 or -1
+    """
+    if theta @ feature_vector + theta_0 > 0:
+        return 1
+    else:
+        return -1
 
 def classify(feature_matrix, theta, theta_0):
     """
@@ -254,7 +249,6 @@ def classify(feature_matrix, theta, theta_0):
     Args:
         feature_matrix - A numpy matrix describing the given data. Each row
             represents a single data point.
-                theta - A numpy array describing the linear classifier.
         theta - A numpy array describing the linear classifier.
         theta_0 - A real valued number representing the offset parameter.
 
@@ -263,17 +257,17 @@ def classify(feature_matrix, theta, theta_0):
     given theta and theta_0. If a prediction is GREATER THAN zero, it should
     be considered a positive classification.
     """
-    (nsamples, nfeatures) = feature_matrix.shape
-    predictions = np.zeros(nsamples)
-    for i in range(nsamples):
-        feature_vector = feature_matrix[i]
-        prediction = np.dot(theta, feature_vector) + theta_0
-        if (prediction > 0):
-            predictions[i] = 1
-        else:
-            predictions[i] = -1
+    nsamples = feature_matrix.shape[0]
+    predictions = [predict(feature_matrix[i], theta, theta_0) for i in range(nsamples)]
+    predictions = np.array(predictions)
     return predictions
 
+def accuracy(preds, targets):
+    """
+    Given length-N vectors containing predicted and target labels,
+    returns the percentage and number of correct predictions.
+    """
+    return (preds == targets).mean()
 
 def classifier_accuracy(
         classifier,
@@ -336,7 +330,7 @@ def bag_of_words(texts, remove_stopword=False):
     """
     stopword = set()
     if remove_stopword:
-        with open('stopwords.txt') as fp:
+        with open(cwd + '\\Review-Analyzer\\stopwords.txt') as fp:
             for line in fp:
                 word = line.strip()
                 stopword.add(word)
@@ -375,10 +369,3 @@ def extract_bow_feature_vectors(reviews, dictionary, binarize=True):
                     feature_matrix[i, dictionary[word]] += 1
     return feature_matrix
 
-
-def accuracy(preds, targets):
-    """
-    Given length-N vectors containing predicted and target labels,
-    returns the percentage and number of correct predictions.
-    """
-    return (preds == targets).mean()
