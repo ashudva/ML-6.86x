@@ -17,64 +17,14 @@ Review | 	label
 Nasty No flavor. The candy is just red, No flavor. Just plan and chewy. I would never buy them again | -1
 YUMMY! You would never guess that they're sugar-free and it's so great that you can eat them pretty much guilt free! i was so impressed that i've ordered some for myself (w dark chocolate) to take to the office. These are just EXCELLENT! | +1
 
-### Hyperparameters Tuning & Learning Algorithms
-#### 1. Perceptron Algorithm
-`Best T = 25`
-![Perceptron Algo Accuracy vs. T](Review-Analyzer/Plots/AvsT_Percep.png)
-
-#### 2. Average Perceptron Algorithm
-`Best T = 25`
-![Average Perceptron Algo Accuracy vs. T](Review-Analyzer/Plots/AvsT_AvgPercep.png)
-
-#### 3. Pegasos Algorithm
-`Best T = 25`
-![Pegasos Algo Accuracy vs. T](Review-Analyzer/Plots/AvsT_Pegasos.png)
-
-`Best l = 0.01`
-![Pegasos Algo Accuracy vs. L](Review-Analyzer/Plots/AvsL_Pegasos.png)
-
-### Use classifiers on the food review dataset, using some simple text features.
->#### In order to automatically analyze reviews we will implement & compare the performance of the algorithms :
-
-#### 1. Perceptron Algorithm
-*Training Accuracy = 0.8157 , Validation Accuracy = 0.7160 , Best T = 25*
-![Perceptron Algo Classifier](Review-Analyzer/Plots/percep.png)
-
-#### 2. Average Perceptron Algorithm
-*Training Accuracy = 0.9728 , Validation Accuracy = 0.7980 , Best T = 25*
-![Average Perceptron Algo Classifier](Review-Analyzer/Plots/avg%20percep.png)
-
-#### 3. Pegasos Algorithm
-*Training Accuracy = 0.9143 , Validation Accuracy = 0.7900 , Best T = 25, Best l = 0.01*
-![Pegasos Algo Classifier](Review-Analyzer/Plots/pegasos.png)
-
-#### Most Explanatory Words for positively labeled reviews:
-1. Delecious
-2. Great
-3. !
-4. Best
-5. Perfect
-6. Loves
-7. Wonderful
-8. Glad
-9. Love
-10. Quickly
-
-### Predictions
->making predictions usig **Pegasos** `T = 25 & L = 0.01`
-#### 1. Normal features pegasos
-Training Accuracy = 0.9185
-Test Accuracy = 0.8020
-#### 1. Stopword features pegasos
-Training Accuracy = 0.9157
-Test Accuracy = 0.8080
-#### 1. Stopword w/o binarize features pegasos
-Training Accuracy = 0.8928
-Test Accuracy = 0.7700
+### Learning Algorithms
+Project involves comparative performance study of three learning algorithms w.r.t sentiment analysis.
+1. Perceptron Algorithm 
+2. Average Perceptron Algorithm
+3. Pegasos Algorithm
 
 ### Results
-![Prediction Results](Review-Analyzer/Plots/Predictions.jpg)
-
+Pegasos Algorithm performs best of all threee algorithms. for detailed results head to [Review-Analyzer](/Review-Analyzer/Readme.md).
 ## Digit Recognition (Non-Linear Classifier & Kernel)
 
 **Digit Recognition** using the *MNIST (Mixed National Institute of Standards and Technology)* database.
