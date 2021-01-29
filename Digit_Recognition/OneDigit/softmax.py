@@ -33,10 +33,11 @@ def compute_probabilities(X, theta, temp_parameter):
     Returns:
         H - (k, n) NumPy array, where each entry H[j][i] is the probability that X[i] is labeled as j
     """
-    d = np.dot(theta,X.T)/temp_parameter - np.max(np.dot(theta,X.T)/temp_parameter,axis=0)
-    soft_max = np.exp(d)/sum(np.exp(d))
+    a = (theta @ X.T) / temp_parameter
+    d = a - np.max(a, axis=0)
+    k = np.exp(d)
     # soft_max = softmax((np.dot(theta,X.T)/temp_parameter)- np.max(np.dot(theta,X.T)/temp_parameter),axis=0)
-    return soft_max
+    return k/k.sum(axis=0)
 
 def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     """
