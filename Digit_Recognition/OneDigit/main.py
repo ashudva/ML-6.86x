@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+from tabulate import tabulate
 import matplotlib.pyplot as plt
 sys.path.append("..")
 from utils import *
@@ -29,8 +30,15 @@ def run_linear_regression_on_MNIST(lambda_factor=1):
     theta = closed_form(train_x_bias, train_y, lambda_factor)
     test_error = compute_test_error_linear(test_x_bias, test_y, theta)
     return test_error
+
+
 # Print test error using linear_regression: Closed Form Solution
-print('Linear Regression test_error =', run_linear_regression_on_MNIST(lambda_factor=1))
+L = np.linspace(1e-4, 1, 20)
+errors = list(map(run_linear_regression_on_MNIST, L))
+
+print('Linear Regression test_errors:')
+print(tabulate(np.array([L[:10], errors[:10], L[10:], errors[10:]]).T, headers=(
+    'Lambda', 'Error', 'Lambda', 'Error')))
 
 
 # 3. Support Vector Machine (One vs. Rest and Multiclass)
