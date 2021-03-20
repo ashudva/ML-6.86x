@@ -1,6 +1,5 @@
 import numpy as np
 
-### Functions for you to fill in ###
 
 def closed_form(X, Y, lambda_factor):
     """
@@ -18,9 +17,11 @@ def closed_form(X, Y, lambda_factor):
     # X.T => transpose of matrix X
     I = np.identity(X.shape[1])
     A = X.T @ X + lambda_factor * I
-    return np.linalg.inv(A) @ (X.T @ Y)
+    b = X.T @ Y
+    return np.linalg.inv(A) @ b
 
 ### Functions for use ###
+
 
 def compute_test_error_linear(test_x, Y, theta):
     test_y_predict = np.round(np.dot(test_x, theta))

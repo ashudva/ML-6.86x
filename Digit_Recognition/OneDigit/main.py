@@ -33,7 +33,7 @@ def run_linear_regression_on_MNIST(lambda_factor=1):
 
 
 # Print test error using linear_regression: Closed Form Solution
-L = np.linspace(1e-4, 1, 20)
+L = np.around(np.linspace(1e-2, 1, 20), decimals=2)
 errors = list(map(run_linear_regression_on_MNIST, L))
 
 print('Linear Regression test_errors:')
@@ -50,14 +50,15 @@ def run_svm_one_vs_rest_on_MNIST():
         Test error for the binary svm
     """
     train_x, train_y, test_x, test_y = get_MNIST_data()
+    # Image class = 0 or 1 (if 1-9)
     train_y[train_y != 0] = 1
     test_y[test_y != 0] = 1
     pred_test_y = one_vs_rest_svm(train_x, train_y, test_x)
     test_error = compute_test_error_svm(test_y, pred_test_y)
-    return test_error
+    return np.around(test_error, decimals=3)
 
 
-print('SVM one vs. rest test_error:', run_svm_one_vs_rest_on_MNIST())
+print('\n\nSVM one vs. rest test_error:', run_svm_one_vs_rest_on_MNIST())
 
 
 def run_multiclass_svm_on_MNIST():
@@ -70,10 +71,10 @@ def run_multiclass_svm_on_MNIST():
     train_x, train_y, test_x, test_y = get_MNIST_data()
     pred_test_y = multi_class_svm(train_x, train_y, test_x)
     test_error = compute_test_error_svm(test_y, pred_test_y)
-    return test_error
+    return np.around(test_error, decimals=3)
 
 
-print('Multiclass SVM test_error:', run_multiclass_svm_on_MNIST())
+print('\n\nMulticlass SVM test_error:', run_multiclass_svm_on_MNIST())
 
 # 4. Multinomial (Softmax) Regression and Gradient Descent
 def run_softmax_on_MNIST(temp_parameter=1):
