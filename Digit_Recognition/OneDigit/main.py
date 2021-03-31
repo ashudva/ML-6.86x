@@ -1,19 +1,19 @@
+from kernel import *
+from features import *
+from softmax import *
+from svm import *
+from linear_regression import *
+from utils import *
 import sys
 import numpy as np
 from tabulate import tabulate
 import matplotlib.pyplot as plt
 sys.path.append("..")
-from utils import *
-from linear_regression import *
-from svm import *
-from softmax import *
-from features import *
-from kernel import *
 
 # 1. Load MNIST data:
 train_x, train_y, test_x, test_y = get_MNIST_data()
 # Plot the first 20 images of the training set.
-plot_images(train_x[0:20, :])
+# plot_images(train_x[0:20, :])
 
 
 # 2. Linear Regression with Closed Form Solution
@@ -33,12 +33,12 @@ def run_linear_regression_on_MNIST(lambda_factor=1):
 
 
 # Print test error using linear_regression: Closed Form Solution
-L = np.around(np.linspace(1e-2, 1, 20), decimals=2)
-errors = list(map(run_linear_regression_on_MNIST, L))
+# L = np.around(np.linspace(1e-2, 1, 20), decimals=2)
+# errors = list(map(run_linear_regression_on_MNIST, L))
 
-print('Linear Regression test_errors:')
-print(tabulate(np.array([L[:10], errors[:10], L[10:], errors[10:]]).T, headers=(
-    'Lambda', 'Error', 'Lambda', 'Error')))
+# print('Linear Regression test_errors:')
+# print(tabulate(np.array([L[:10], errors[:10], L[10:], errors[10:]]).T, headers=(
+    # 'Lambda', 'Error', 'Lambda', 'Error')))
 
 
 # 3. Support Vector Machine (One vs. Rest and Multiclass)
@@ -58,7 +58,7 @@ def run_svm_one_vs_rest_on_MNIST():
     return np.around(test_error, decimals=3)
 
 
-print('\n\nSVM one vs. rest test_error:', run_svm_one_vs_rest_on_MNIST())
+# print('\n\nSVM one vs. rest test_error:', run_svm_one_vs_rest_on_MNIST())
 
 
 def run_multiclass_svm_on_MNIST():
@@ -74,7 +74,7 @@ def run_multiclass_svm_on_MNIST():
     return np.around(test_error, decimals=3)
 
 
-print('\n\nMulticlass SVM test_error:', run_multiclass_svm_on_MNIST())
+# print('\n\nMulticlass SVM test_error:', run_multiclass_svm_on_MNIST())
 
 # 4. Multinomial (Softmax) Regression and Gradient Descent
 def run_softmax_on_MNIST(temp_parameter=1):
@@ -93,40 +93,48 @@ def run_softmax_on_MNIST(temp_parameter=1):
         Final test error
     """
     train_x, train_y, test_x, test_y = get_MNIST_data()
-    theta, cost_function_history = softmax_regression(train_x, train_y, temp_parameter, alpha= 0.3, lambda_factor = 1.0e-4, k = 10, num_iterations = 150)
+    theta, cost_function_history = softmax_regression(
+        train_x, train_y, temp_parameter, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
     plot_cost_function_over_time(cost_function_history)
     test_error = compute_test_error(test_x, test_y, theta, temp_parameter)
     # Save the model parameters theta obtained from calling softmax_regression to disk.
     write_pickle_data(theta, "./theta.pkl.gz")
-
-    # TODO: add your code here for the "Using the Current Model" question in tab 4.
-    #      and print the test_error_mod3
     return test_error
 
-print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1))
+
+# print('softmax test_error=', run_softmax_on_MNIST())
 
 # TODO: Find the error rate for temp_parameter = [.5, 1.0, 2.0]
 #      Remember to return the tempParameter to 1, and re-run run_softmax_on_MNIST
 
 # 6. Changing Labels
+
+
+
+
 def run_softmax_on_MNIST_mod3(temp_parameter=1):
     """
     Trains Softmax regression on digit (mod 3) classifications.
 
     See run_softmax_on_MNIST for more info.
     """
-    #YOUR CODE HERE
-    raise NotImplementedError
+    train_x, train_y, test_x, test_y = get_MNIST_data()
+    train_y, test_y = update_y(train_y, test_y)
+    theta, cost_function_history = softmax_regression(
+        train_x, train_y, temp_parameter, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
+    plot_cost_function_over_time(cost_function_history)
+    test_error = compute_test_error_mod3(test_x, test_y, theta, temp_parameter)
+    # Save the model parameters theta obtained from calling softmax_regression to disk.
+    write_pickle_data(theta, "./theta_mod3.pkl.gz")
+    return test_error
 
 
-# TODO: Run run_softmax_on_MNIST_mod3(), report the error rate
-
+print('SoftMax % 3 test_error=', run_softmax_on_MNIST())
 
 
 # 7. Classification Using Manually Crafted Features
 ## Dimensionality reduction via PCA ##
 # TODO: First fill out the PCA functions in features.py as the below code depends on them.
-
 n_components = 18
 pcs = principal_components(train_x)
 train_pca = project_onto_PC(train_x, pcs, n_components)
@@ -142,21 +150,22 @@ test_pca = project_onto_PC(test_x, pcs, n_components)
 # TODO: Use the plot_PC function in features.py to produce scatterplot
 #       of the first 100 MNIST images, as represented in the space spanned by the
 #       first 2 principal components found above.
-plot_PC(train_x[range(100),], pcs, train_y[range(100)])
+plot_PC(train_x[range(100), ], pcs, train_y[range(100)])
 
 
 # TODO: Use the reconstruct_PC function in features.py to show
 #       the first and second MNIST images as reconstructed solely from
 #       their 18-dimensional principal component representation.
 #       Compare the reconstructed images with the originals.
-firstimage_reconstructed = reconstruct_PC(train_pca[0, ], pcs, n_components, train_x)
+firstimage_reconstructed = reconstruct_PC(
+    train_pca[0, ], pcs, n_components, train_x)
 plot_images(firstimage_reconstructed)
-plot_images(train_x[0,])
+plot_images(train_x[0, ])
 
-secondimage_reconstructed = reconstruct_PC(train_pca[1, ], pcs, n_components, train_x)
+secondimage_reconstructed = reconstruct_PC(
+    train_pca[1, ], pcs, n_components, train_x)
 plot_images(secondimage_reconstructed)
-plot_images(train_x[1,])
-
+plot_images(train_x[1, ])
 
 
 ## Cubic Kernel ##

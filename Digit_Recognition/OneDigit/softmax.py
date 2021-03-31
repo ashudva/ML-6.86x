@@ -1,4 +1,6 @@
 import sys
+
+from scipy.sparse.construct import random
 sys.path.append("..")
 import utils
 from utils import *
@@ -18,7 +20,7 @@ def augment_feature_vector(X):
 
     Returns: X_augment, an (n, d) NumPy array with the added feature for each datapoint
     """
-    column_of_ones = np.zeros([len(X), 1]) + 1
+    column_of_ones = np.ones([len(X), 1])
     return np.hstack((column_of_ones, X))
 
 def compute_probabilities(X, theta, temp_parameter):
@@ -34,10 +36,10 @@ def compute_probabilities(X, theta, temp_parameter):
         H - (k, n) NumPy array, where each entry H[j][i] is the probability that X[i] is labeled as j
     """
     a = (theta @ X.T) / temp_parameter
-    d = a - np.max(a, axis=0)
-    k = np.exp(d)
-    # soft_max = softmax((np.dot(theta,X.T)/temp_parameter)- np.max(np.dot(theta,X.T)/temp_parameter),axis=0)
-    return k/k.sum(axis=0)
+    c = np.max(a, axis=0)
+    z = a - c
+    exp_z = np.exp(z)
+    return exp_z/exp_z.sum(axis=0)
 
 def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     """
@@ -55,16 +57,17 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     Returns
         c - the cost value (scalar)
     """
-    a = 0
+    N = X.shape[0]
     prob = compute_probabilities(X,theta,temp_parameter)
-    for i, y in enumerate(Y):
-        for j in range(theta.shape[0]):
-            if y == j:
-                a += np.log(prob[j][i])
-    # rp = regularization parameter
-    rp = (lambda_factor/2)*(np.sum(np.square(theta)))
-    error_fraction = (1/X.shape[0])*a
-    return -error_fraction + rp
+    # for each data point select the probability of corresponding label
+    # e.g label for image1 = 1 = y1 then out of all P(y1 = 0 | x1, theta) to P(y1 = 9 | x1, theta) select P(y1 = 1 | x1, theta)
+    # these probabilities are given by compute_probabilities or SoftMax Function
+    selected_prob = np.choose(Y, prob)  # Shape = [n,]
+    non_regulized_cost = (- 1/N) * (np.sum(np.log(selected_prob)))
+    regulized_cost = (lambda_factor/2.0) * (np.sum(np.square(theta)))
+    return non_regulized_cost + regulized_cost
+
+
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
     """
@@ -84,13 +87,14 @@ def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_param
         theta - (k, d) NumPy array that is the final value of parameters theta
     """
     itemp=1./temp_parameter
-    num_examples = X.shape[0]
-    num_labels = theta.shape[0]
+    nsamples = X.shape[0]
+    nlabels = theta.shape[0]
     probabilities = compute_probabilities(X, theta, temp_parameter)
     # M[i][j] = 1 if y^(j) = i and 0 otherwise.
-    M = sparse.coo_matrix(([1]*num_examples, (Y,range(num_examples))), shape=(num_labels,num_examples)).toarray()
+    M = sparse.coo_matrix(([1]*nsamples, (Y, range(nsamples))),
+                          shape=(nlabels, nsamples)).toarray()
     non_regularized_gradient = np.dot(M-probabilities, X)
-    non_regularized_gradient *= -itemp/num_examples
+    non_regularized_gradient *= -itemp/nsamples
     return theta - alpha * (non_regularized_gradient + lambda_factor * theta)
 
 
@@ -111,8 +115,8 @@ def update_y(train_y, test_y):
         test_y_mod3 - (n, ) NumPy array containing the new labels (a number between 0-2)
                     for each datapoint in the test set
     """
-    #YOUR CODE HERE
-    raise NotImplementedError
+    return train_y % 3, test_y % 3
+
 
 def compute_test_error_mod3(X, Y, theta, temp_parameter):
     """
@@ -129,8 +133,8 @@ def compute_test_error_mod3(X, Y, theta, temp_parameter):
     Returns:
         test_error - the error rate of the classifier (scalar)
     """
-    #YOUR CODE HERE
-    raise NotImplementedError
+    assigned_labels = get_classification(X, theta, temp_parameter)
+    return 1 - np.mean(np.remainder(assigned_labels, 3) == Y)
 
 def softmax_regression(X, Y, temp_parameter, alpha, lambda_factor, k, num_iterations):
     """
