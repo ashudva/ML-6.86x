@@ -229,17 +229,19 @@ def check_update_y():
 def check_project_onto_PC():
     ex_name = "Project onto PC"
     X = np.array([
-        [0, 1, 2, 3 ],
-        [1, 2, 3, 4 ],
-        [2, 3, 4, 5 ],
+        [1, 2, 3],
+        [2, 4, 6],
+        [3, 6, 9],
+        [4, 8, 12],
     ]);
     pcs = features.principal_components(X)
     exp_res = np.array([
-        [2, 0, 0],
-        [0, 0, 0],
-        [-2, 0, 0]
+        [5.61248608, 0],
+        [1.87082869, 0],
+        [-1.87082869, 0],
+        [-5.61248608, 0],
     ])
-    n_components = 3
+    n_components = 2
     if check_array(
             ex_name, features.project_onto_PC,
             exp_res, X, pcs, n_components):

@@ -1,24 +1,30 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def project_onto_PC(X, pcs, n_components):
     """
     Given principal component vectors pcs = principal_components(X)
     this function returns a new data array in which each sample in X
     has been projected onto the first n_components principcal components.
+
+    Args:
+        X - n x d Numpy array
+        pcs - d x d Numpy array with each column as an eigenvector sorted in 
+        decreasing order of their corresponding eigenvalues.
+        n_components - (scalar) top principal components
+    Returns:
+        projected_data - n x n_components Numpy array with n samples and n_components features
     """
-    # TODO: first center data using the centerData() function.
-    # TODO: Return the projection of the centered dataset
-    #       on the first n_components principal components.
-    #       This should be an array with dimensions: n x n_components.
-    # Hint: these principal components = first n_components columns
-    #       of the eigenvectors returned by principal_components().
-    #       Note that each eigenvector is already be a unit-vector,
-    #       so the projection may be done using matrix multiplication.
-    raise NotImplementedError
+    # Step1: Center the data such that for each feature of a sample, mean = 0.
+    X_bar = center_data(X)
 
+    # Step2: Projection onto the n_components principal components.
+    n_pcs = pcs[:, :n_components]
+    projected_data = X_bar @ n_pcs
 
-### Functions which are already complete, for you to use ###
+    return projected_data
+
 
 def cubic_features(X):
     """
@@ -67,14 +73,17 @@ def cubic_features(X):
             new_data[i, newdata_colindex] = X_withones[i, j]**3
             newdata_colindex += 1
             for k in range(j + 1, d + 1):
-                new_data[i, newdata_colindex] = X_withones[i, j]**2 * X_withones[i, k] * (3**(0.5))
+                new_data[i, newdata_colindex] = X_withones[i,
+                                                           j]**2 * X_withones[i, k] * (3**(0.5))
                 newdata_colindex += 1
 
-                new_data[i, newdata_colindex] = X_withones[i, j] * X_withones[i, k]**2 * (3**(0.5))
+                new_data[i, newdata_colindex] = X_withones[i, j] * \
+                    X_withones[i, k]**2 * (3**(0.5))
                 newdata_colindex += 1
 
                 if k < d:
-                    new_data[i, newdata_colindex] = X_withones[i, j] * X_withones[i, k] * (6**(0.5))
+                    new_data[i, newdata_colindex] = X_withones[i,
+                                                               j] * X_withones[i, k] * (6**(0.5))
                     newdata_colindex += 1
 
     return new_data
@@ -112,7 +121,7 @@ def principal_components(X):
         the largest eigenvalue
     """
     centered_data = center_data(X)  # first center data
-    scatter_matrix = np.dot(centered_data.transpose(), centered_data)
+    scatter_matrix = centered_data.T @ centered_data
     eigen_values, eigen_vectors = np.linalg.eig(scatter_matrix)
     # Re-order eigenvectors by eigenvalue magnitude:
     idx = eigen_values.argsort()[::-1]
@@ -149,5 +158,6 @@ def reconstruct_PC(x_pca, pcs, n_components, X):
     """
     feature_means = X - center_data(X)
     feature_means = feature_means[0, :]
-    x_reconstructed = np.dot(x_pca, pcs[:, range(n_components)].T) + feature_means
+    x_reconstructed = np.dot(
+        x_pca, pcs[:, range(n_components)].T) + feature_means
     return x_reconstructed
