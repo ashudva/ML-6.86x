@@ -39,8 +39,8 @@ def run_linear_regression_on_MNIST(lambda_factor=1):
 
 # Print test error using linear_regression: Closed Form Solution
 L = np.around(np.linspace(1e-2, 1, 20), decimals=2)
+print('\nLinear Regression test errors for different lambdas:')
 loop = tqdm(enumerate(L), total=len(L), leave=False)
-print('Linear Regression test errors for different lambdas:')
 errors = []
 for index, l in loop:
     loop.set_description(f"Lambda{index + 1}={l}")
@@ -63,6 +63,7 @@ def run_svm_one_vs_rest_on_MNIST():
     """
     train_x, train_y, test_x, test_y = get_MNIST_data()
     # Image class = 0 or 1 (if 1-9)
+    print("\nRunning one vs. rest SVM")
     train_y[train_y != 0] = 1
     test_y[test_y != 0] = 1
     pred_test_y = one_vs_rest_svm(train_x, train_y, test_x)
@@ -70,7 +71,7 @@ def run_svm_one_vs_rest_on_MNIST():
     return np.around(test_error, decimals=3)
 
 
-print('\n\nSVM one vs. rest test error:', run_svm_one_vs_rest_on_MNIST())
+print('SVM one vs. rest test error:', run_svm_one_vs_rest_on_MNIST())
 
 
 def run_multiclass_svm_on_MNIST():
@@ -81,12 +82,13 @@ def run_multiclass_svm_on_MNIST():
         Test error for the binary svm
     """
     train_x, train_y, test_x, test_y = get_MNIST_data()
+    print("\nRunning multiclass SVM")
     pred_test_y = multi_class_svm(train_x, train_y, test_x)
     test_error = compute_test_error_svm(test_y, pred_test_y)
     return np.around(test_error, decimals=3)
 
 
-print('\n\nMulticlass SVM test error:', run_multiclass_svm_on_MNIST())
+print('Multiclass SVM test error:', run_multiclass_svm_on_MNIST())
 
 
 ###############################################################################
@@ -117,11 +119,15 @@ def run_softmax_on_MNIST(temp_parameter=1):
     return test_error
 
 
-print('\n\nSoftmax test error=', run_softmax_on_MNIST())
+print("\nRunning multinomial softmax classification")
+print('Softmax test error=', run_softmax_on_MNIST())
 T = [.5, 1.0, 2.0]
-temp_parameter = tqdm(T, leave=False, total=3, desc="Temp Parameter loop")
-errors = [run_softmax_on_MNIST(t) for t in temp_parameter]
+errors = []
 print('\nSoftmax test errors for different temperature parameters:')
+pbr = tqdm(enumerate(T), leave=False, total=3)
+for index, t in pbr:
+    pbr.set_description(f"Temp Parameter Loop - {index+1}")
+    errors.append(run_softmax_on_MNIST(t))
 print(tabulate(np.array([T, errors]).T, headers=(
     'temp', 'error')))
 
@@ -137,6 +143,7 @@ def run_softmax_on_MNIST_mod3(temp_parameter=1):
     """
     train_x, train_y, test_x, test_y = get_MNIST_data()
     train_y, test_y = update_y(train_y, test_y)
+    print("\nRunning Softmax % 3")
     theta, cost_function_history = softmax_regression(
         train_x, train_y, temp_parameter, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
     plot_cost_function_over_time(cost_function_history)
@@ -146,7 +153,7 @@ def run_softmax_on_MNIST_mod3(temp_parameter=1):
     return test_error
 
 
-print('\n\nSoftMax % 3 test error=', run_softmax_on_MNIST())
+print('SoftMax % 3 test error=', run_softmax_on_MNIST_mod3())
 
 
 ###############################################################################
@@ -157,6 +164,7 @@ print('\n\nSoftMax % 3 test error=', run_softmax_on_MNIST())
 # 6-A. Dimensionality reduction via PCA
 ##############################################
 
+print("\nRunning classification using PCA")
 n_components = 18
 pcs = principal_components(train_x)
 train_pca = project_onto_PC(train_x, pcs, n_components)
@@ -170,7 +178,7 @@ plot_cost_function_over_time(cost_function_history)
 test_error = compute_test_error(test_pca, test_y, theta, temp_parameter=1)
 # Save the model parameters theta obtained from calling softmax_regression to disk.
 write_pickle_data(theta, "./theta_pca.pkl.gz")
-print(f"\n\nSoftmax & PCA test error: {test_error}")
+print(f"Softmax & PCA test error: {test_error}")
 
 # Plot first 100 images of the dataset as projected onto PC1 and PC2
 plot_PC(train_x[range(100), ], pcs, train_y[range(100)])
@@ -195,6 +203,8 @@ plot_images(train_x[1, ])
 ##############################################
 
 # 10-dimensional PCA representation of the training and test set
+
+print("\nRunning Softmax on cubic features and PCA")
 n_components = 10
 pcs = principal_components(train_x)
 train_pca10 = project_onto_PC(train_x, pcs, n_components)
@@ -216,4 +226,4 @@ plot_cost_function_over_time(cost_function_history)
 test_error = compute_test_error(test_pca, test_y, theta, temp_parameter=1)
 # Save the model parameters theta obtained from calling softmax_regression to disk.
 write_pickle_data(theta, "./theta_cubic.pkl.gz")
-print(f"\n\nSoftmax on Cubic features test error: {test_error}")
+print(f"Softmax on Cubic features test error: {test_error}")
