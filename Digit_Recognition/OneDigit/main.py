@@ -1,3 +1,4 @@
+from tqdm.auto import tqdm
 from kernel import *
 from features import *
 from softmax import *
@@ -38,9 +39,14 @@ def run_linear_regression_on_MNIST(lambda_factor=1):
 
 # Print test error using linear_regression: Closed Form Solution
 L = np.around(np.linspace(1e-2, 1, 20), decimals=2)
-errors = list(map(run_linear_regression_on_MNIST, L))
-
+loop = tqdm(enumerate(L), total=len(L), leave=False)
 print('Linear Regression test errors for different lambdas:')
+errors = []
+for index, l in loop:
+    loop.set_description(f"Lambda{index + 1}={l}")
+    e = run_linear_regression_on_MNIST(l)
+    errors.append(e)
+    loop.set_postfix({'error': e})
 print(tabulate(np.array([L[:10], errors[:10], L[10:], errors[10:]]).T, headers=(
     'lambda', 'error', 'lambda', 'error')))
 
@@ -112,10 +118,11 @@ def run_softmax_on_MNIST(temp_parameter=1):
 
 
 print('\n\nSoftmax test error=', run_softmax_on_MNIST())
-temp_parameter = [.5, 1.0, 2.0]
-errors = list(map(run_softmax_on_MNIST, temp_parameter))
+T = [.5, 1.0, 2.0]
+temp_parameter = tqdm(T, leave=False, total=3, desc="Temp Parameter loop")
+errors = [run_softmax_on_MNIST(t) for t in temp_parameter]
 print('\nSoftmax test errors for different temperature parameters:')
-print(tabulate(np.array([temp_parameter, errors]).T, headers=(
+print(tabulate(np.array([T, errors]).T, headers=(
     'temp', 'error')))
 
 

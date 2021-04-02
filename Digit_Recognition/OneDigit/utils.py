@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import math
+from tqdm.auto import tqdm
 
 
 def plot_images(X):
@@ -12,7 +13,7 @@ def plot_images(X):
     num_images = X.shape[0]
     num_rows = math.floor(math.sqrt(num_images))
     num_cols = math.ceil(num_images/num_rows)
-    for i in range(num_images):
+    for i in tqdm(range(num_images), desc="Load images"):
         reshaped_image = X[i, :].reshape(28, 28)
         plt.subplot(num_rows, num_cols, i+1)
         plt.imshow(reshaped_image, cmap=cm.Greys_r)

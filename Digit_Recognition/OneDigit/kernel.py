@@ -3,7 +3,6 @@ import numpy as np
 ### Functions for you to fill in ###
 
 
-
 def polynomial_kernel(X, Y, c, p):
     """
         Compute the polynomial kernel between two matrices X and Y::
@@ -19,9 +18,9 @@ def polynomial_kernel(X, Y, c, p):
         Returns:
             kernel_matrix - (n, m) Numpy array containing the kernel matrix
     """
-    # YOUR CODE HERE
-    raise NotImplementedError
-
+    K = X @ Y.T + c
+    K **= p
+    return K
 
 
 def rbf_kernel(X, Y, gamma):
@@ -38,5 +37,8 @@ def rbf_kernel(X, Y, gamma):
         Returns:
             kernel_matrix - (n, m) Numpy array containing the kernel matrix
     """
-    # YOUR CODE HERE
-    raise NotImplementedError
+    Xnorm = np.sum(X**2, axis=1)
+    Ynorm = np.sum(Y**2, axis=1)
+    cross = -2 * (X @ Y.T)
+    K = -gamma * (Xnorm[:, None] + Ynorm[None, :] + cross)
+    return np.exp(K)

@@ -1,3 +1,4 @@
+from tqdm.auto import tqdm
 import sys
 
 from scipy.sparse.construct import random
@@ -160,9 +161,12 @@ def softmax_regression(X, Y, temp_parameter, alpha, lambda_factor, k, num_iterat
     X = augment_feature_vector(X)
     theta = np.zeros([k, X.shape[1]])
     cost_function_progression = []
-    for i in range(num_iterations):
+    pbr = tqdm(range(num_iterations), leave=False, total=num_iterations)
+    for i in pbr:
+        pbr.set_description(f"Softmax Iteration [{i}/{num_iterations}]")
         cost_function_progression.append(compute_cost_function(X, Y, theta, lambda_factor, temp_parameter))
         theta = run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter)
+    pbr.close()
     return theta, cost_function_progression
 
 def get_classification(X, theta, temp_parameter):
