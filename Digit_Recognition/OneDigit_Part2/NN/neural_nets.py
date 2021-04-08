@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from tqdm.auto import tqdm
 
 """
  ==================================
@@ -58,45 +59,55 @@ class NeuralNetwork():
 
     def train(self, x1, x2, y):
 
+        # Vectorize the ReLU and its derivative
+        vec_relu = np.vectorize(rectified_linear_unit)
+        vec_relu_derivative = np.vectorize(rectified_linear_unit_derivative)
+
         ### Forward propagation ###
         input_values = np.matrix([[x1], [x2]])  # 2 by 1
 
         # Calculate the input and activation of the hidden layer
         # (3 by 1 matrices)
         hidden_layer_weighted_input = self.input_to_hidden_weights @ input_values + self.biases
-        hidden_layer_activation = rectified_linear_unit(
+        hidden_layer_activation = vec_relu(
             hidden_layer_weighted_input)
 
-        output = hidden_layer_activation @ self.hidden_to_output_weights
-        activated_output = output_layer_activation(output)
+        output = self.hidden_to_output_weights @ hidden_layer_activation
+        output_activation = output_layer_activation(output)
 
         ### Backpropagation ###
 
         # Compute gradients
-        output_layer_error = (activated_output - y) * \
+        output_layer_error = (output_activation - y) * \
             output_layer_activation_derivative(output)
+        # (1 by 1 matrix)
+        hidden_layer_error = np.multiply(self.hidden_to_output_weights.T * output_layer_error,
+                                         vec_relu_derivative(hidden_layer_weighted_input))
         # (3 by 1 matrix)
-        hidden_layer_error = np.multiply((np.transpose(
-            self.hidden_to_output_weights) * output_layer_error), vec_relu_derivative(hidden_layer_weighted_input))
 
-        bias_gradients =  # TODO
-        hidden_to_output_weight_gradients =  # TODO
-        input_to_hidden_weight_gradients =  # TODO
+        bias_gradients = hidden_layer_error
+        hidden_to_output_weight_gradients = np.transpose(
+            hidden_layer_activation * output_layer_error)
+        input_to_hidden_weight_gradients = np.transpose(
+            input_values * hidden_layer_error.T)
 
         # Use gradients to adjust weights and biases using gradient descent
-        self.biases =  # TODO
-        self.input_to_hidden_weights =  # TODO
-        self.hidden_to_output_weights =  # TODO
+        self.biases = self.biases - self.learning_rate * bias_gradients
+        self.input_to_hidden_weights = self.input_to_hidden_weights - self.learning_rate * \
+            input_to_hidden_weight_gradients
+        self.hidden_to_output_weights = self.hidden_to_output_weights - self.learning_rate * \
+            hidden_to_output_weight_gradients
 
     def predict(self, x1, x2):
 
         input_values = np.matrix([[x1], [x2]])
+        vec_relu = np.vectorize(rectified_linear_unit)
 
         # Compute output for a single input(should be same as the forward propagation in training)
-        hidden_layer_weighted_input =  # TODO
-        hidden_layer_activation =  # TODO
-        output =  # TODO
-        activated_output =  # TODO
+        hidden_layer_weighted_input = self.input_to_hidden_weights * input_values + self.biases
+        hidden_layer_activation = vec_relu(hidden_layer_weighted_input)
+        output = self.hidden_to_output_weights * hidden_layer_activation
+        activated_output = output_layer_activation(output)
 
         return activated_output.item()
 
@@ -104,7 +115,11 @@ class NeuralNetwork():
     def train_neural_network(self):
 
         for epoch in range(self.epochs_to_train):
-            for x, y in self.training_points:
+            pbr = tqdm(self.training_points, total=len(
+                self.training_points), leave=False)
+            pbr.set_description(
+                f'Training Epoch [{epoch + 1}/ {self.epochs_to_train}]')
+            for x, y in pbr:
                 self.train(x[0], x[1], y)
 
     # Run this to test your neural network implementation for correctness after it is trained
@@ -125,5 +140,4 @@ x = NeuralNetwork()
 
 x.train_neural_network()
 
-# UNCOMMENT THE LINE BELOW TO TEST YOUR NEURAL NETWORK
-# x.test_neural_network()
+x.test_neural_network()
