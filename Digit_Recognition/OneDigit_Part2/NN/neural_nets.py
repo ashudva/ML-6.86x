@@ -86,10 +86,8 @@ class NeuralNetwork():
         # (3 by 1 matrix)
 
         bias_gradients = hidden_layer_error
-        hidden_to_output_weight_gradients = np.transpose(
-            hidden_layer_activation * output_layer_error)
-        input_to_hidden_weight_gradients = np.transpose(
-            input_values * hidden_layer_error.T)
+        hidden_to_output_weight_gradients = output_layer_error * hidden_layer_activation.T
+        input_to_hidden_weight_gradients = hidden_layer_error * input_values.T
 
         # Use gradients to adjust weights and biases using gradient descent
         self.biases = self.biases - self.learning_rate * bias_gradients
