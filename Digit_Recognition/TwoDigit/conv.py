@@ -37,10 +37,9 @@ def main():
     X_train = X_train[:dev_split_index]
     y_train = [y_train[0][:dev_split_index], y_train[1][:dev_split_index]]
 
-    permutation = np.array([i for i in range(len(X_train))])
-    np.random.shuffle(permutation)
-    X_train = [X_train[i] for i in permutation]
-    y_train = [[y_train[0][i] for i in permutation], [y_train[1][i] for i in permutation]]
+    permutation = torch.randperm(len(X_train))
+    X_train = X_train[permutation]
+    y_train = [y_train[0][permutation], y_train[1][permutation]]
 
     # Split dataset into batches
     train_batches = batchify_data(X_train, y_train, batch_size)

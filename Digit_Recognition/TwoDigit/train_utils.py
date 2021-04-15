@@ -5,13 +5,15 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
+import sys
+sys.path.append('..')
 
 
 class Flatten(nn.Module):
     """A custom layer that views an input as 1D."""
     
     def forward(self, input):
-        return input.view(input.size(0), -1)
+        return torch.flatten(input, start_dim=1)
 
 
 def batchify_data(x_data, y_data, batch_size):
@@ -41,7 +43,7 @@ def train_model(train_data, dev_data, model, lr=0.01, momentum=0.9, nesterov=Fal
     optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, nesterov=nesterov)
 
     for epoch in range(1, n_epochs + 1):
-        print("-------------\nEpoch {}:\n".format(epoch))
+        print("-------------\nEpoch [{}/{}]:\n".format(epoch, n_epochs))
 
         # Run **training***
         loss, acc = run_epoch(train_data, model.train(), optimizer)
@@ -52,7 +54,7 @@ def train_model(train_data, dev_data, model, lr=0.01, momentum=0.9, nesterov=Fal
         print('Valid | loss1: {:.6f}  accuracy1: {:.6f} | loss2: {:.6f}  accuracy2: {:.6f}'.format(val_loss[0], val_acc[0], val_loss[1], val_acc[1]))
 
         # Save model
-        torch.save(model, 'mnist_model_fully_connected.pt')
+        torch.save(model, f'models/MLP_epoch_{epoch}.pt')
 
 
 def run_epoch(data, model, optimizer):
