@@ -11,7 +11,7 @@ class Flatten(nn.Module):
     """A custom layer that views an input as 1D."""
 
     def forward(self, input):
-        return input.view(input.size(0), -1)
+        return torch.flatten(input)
 
 # Helpers
 def batchify_data(x_data, y_data, batch_size):
@@ -38,7 +38,7 @@ def train_model(train_data, dev_data, model, lr=0.01, momentum=0.9, nesterov=Fal
     optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, nesterov=nesterov)
 
     for epoch in range(1, 11):
-        print("-------------\nEpoch {}:\n".format(epoch))
+        print(f"-------------\nEpoch {epoch}:\n")
 
 
         # Run **training***

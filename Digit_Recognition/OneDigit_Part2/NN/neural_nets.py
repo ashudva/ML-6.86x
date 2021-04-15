@@ -48,9 +48,9 @@ class NeuralNetwork():
 
     def __init__(self):
 
-        self.input_to_hidden_weights = np.matrix('1 1; 1 1; 1 1')
+        self.input_to_hidden_weights = np.matrix('1 1 0; 1 1 0; 1 1 0')
+        # Os in the last col of weight matrix are biases
         self.hidden_to_output_weights = np.matrix('1 1 1')
-        self.biases = np.matrix('0; 0; 0')
         self.learning_rate = .001
         self.epochs_to_train = 10
         self.training_points = [
@@ -64,11 +64,12 @@ class NeuralNetwork():
         vec_relu_derivative = np.vectorize(rectified_linear_unit_derivative)
 
         ### Forward propagation ###
-        input_values = np.matrix([[x1], [x2]])  # 2 by 1
+        # 1 is added to every feature vector to account for the bias in matmul
+        input_values = np.matrix([[x1], [x2], [1]])  # 3 by 1
 
         # Calculate the input and activation of the hidden layer
         # (3 by 1 matrices)
-        hidden_layer_weighted_input = self.input_to_hidden_weights @ input_values + self.biases
+        hidden_layer_weighted_input = self.input_to_hidden_weights @ input_values
         hidden_layer_activation = vec_relu(
             hidden_layer_weighted_input)
 
@@ -85,24 +86,23 @@ class NeuralNetwork():
                                          vec_relu_derivative(hidden_layer_weighted_input))
         # (3 by 1 matrix)
 
-        bias_gradients = hidden_layer_error
         hidden_to_output_weight_gradients = output_layer_error * hidden_layer_activation.T
         input_to_hidden_weight_gradients = hidden_layer_error * input_values.T
 
         # Use gradients to adjust weights and biases using gradient descent
-        self.biases = self.biases - self.learning_rate * bias_gradients
         self.input_to_hidden_weights = self.input_to_hidden_weights - self.learning_rate * \
             input_to_hidden_weight_gradients
         self.hidden_to_output_weights = self.hidden_to_output_weights - self.learning_rate * \
             hidden_to_output_weight_gradients
 
     def predict(self, x1, x2):
-
-        input_values = np.matrix([[x1], [x2]])
+        
+        # 1 is added to every feature vector to account for the bias in matmul
+        input_values = np.matrix([[x1], [x2], [1]])
         vec_relu = np.vectorize(rectified_linear_unit)
 
         # Compute output for a single input(should be same as the forward propagation in training)
-        hidden_layer_weighted_input = self.input_to_hidden_weights * input_values + self.biases
+        hidden_layer_weighted_input = self.input_to_hidden_weights * input_values
         hidden_layer_activation = vec_relu(hidden_layer_weighted_input)
         output = self.hidden_to_output_weights * hidden_layer_activation
         activated_output = output_layer_activation(output)
