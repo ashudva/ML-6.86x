@@ -6,6 +6,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
+import sys
+sys.path.append('..')
 
 
 class Flatten(nn.Module):
@@ -52,7 +54,7 @@ def train_model(train_data, dev_data, model, lr=0.01, momentum=0.9, nesterov=Fal
         val_loss, val_acc = run_epoch(dev_data, model.eval(), optimizer)
         print('Val loss:   {:.6f} | Val accuracy:   {:.6f}'.format(val_loss, val_acc))
         # Save model
-        torch.save(model, 'mnist_model_fully_connected.pt')
+        torch.save(model, f'/models/CNN{epoch}.pt')
     return val_acc
 
 def run_epoch(data, model, optimizer):
