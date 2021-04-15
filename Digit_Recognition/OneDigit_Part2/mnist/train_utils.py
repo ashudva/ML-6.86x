@@ -11,7 +11,7 @@ class Flatten(nn.Module):
     """A custom layer that views an input as 1D."""
 
     def forward(self, input):
-        return torch.flatten(input)
+        return input.view(input.size(0), -1)
 
 # Helpers
 def batchify_data(x_data, y_data, batch_size):
