@@ -1,5 +1,6 @@
 """Training utilities."""
 
+from torch._C import device
 from tqdm import tqdm
 import numpy as np
 import torch
@@ -11,7 +12,8 @@ class Flatten(nn.Module):
     """A custom layer that views an input as 1D."""
 
     def forward(self, input):
-        return input.view(input.size(0), -1)
+        # flatten each image in a batch of 32
+        return torch.flatten(input, start_dim=1)
 
 # Helpers
 def batchify_data(x_data, y_data, batch_size):
@@ -28,6 +30,7 @@ def batchify_data(x_data, y_data, batch_size):
 
 def compute_accuracy(predictions, y):
     """Computes the accuracy of predictions against the gold labels, y."""
+    predictions, y = predictions.to('cpu'), y.to('cpu')
     return np.mean(np.equal(predictions.numpy(), y.numpy()))
 
 
@@ -67,6 +70,8 @@ def run_epoch(data, model, optimizer):
         x, y = batch['x'], batch['y']
 
         # Get output predictions
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        x, y = x.to(device), y.to(device)
         out = model(x)
 
         # Predict and store accuracy

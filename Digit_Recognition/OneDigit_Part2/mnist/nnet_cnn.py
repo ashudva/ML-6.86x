@@ -56,6 +56,12 @@ def main():
     )
     ##################################
 
+    # Moving model and data to GPU
+    if torch.cuda.is_available():
+        print("----------------- Using the Device: CUDA -----------------")
+        model = model.to('cuda')
+    else:
+        print("----------------- Using the Device: CPU ----------------- ")
     train_model(train_batches, dev_batches, model, nesterov=True)
 
     ## Evaluate the model on test data
@@ -65,7 +71,7 @@ def main():
 
 
 if __name__ == '__main__':
-    # Specify seed for deterministic behavior, then shuffle. Do not change seed for official submissions to edx
+    # Specify seed for deterministic behavior, then shuffle.
     np.random.seed(12321)  # for reproducibility
     torch.manual_seed(12321)
     main()
