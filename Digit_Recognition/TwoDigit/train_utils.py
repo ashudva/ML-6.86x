@@ -8,6 +8,7 @@ import torch.nn as nn
 import sys
 sys.path.append('..')
 
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 class Flatten(nn.Module):
     """A custom layer that views an input as 1D."""
@@ -34,6 +35,9 @@ def batchify_data(x_data, y_data, batch_size):
 
 def compute_accuracy(predictions, y):
     """Computes the accuracy of predictions against the gold labels, y."""
+    # Move predictions back to cpu to use numpy
+    predictions = predictions.to('cpu')
+    y = y.to('cpu')
     return np.mean(np.equal(predictions.numpy(), y.numpy()))
 
 
@@ -73,6 +77,9 @@ def run_epoch(data, model, optimizer):
         # Grab x and y
         x, y = batch['x'], batch['y']
 
+        # Move the data to GPU
+        if torch.cuda.is_available():
+            x, y = x.to(device), y.to(device)
         # Get output predictions for both the upper and lower numbers
         out1, out2 = model(x)
 

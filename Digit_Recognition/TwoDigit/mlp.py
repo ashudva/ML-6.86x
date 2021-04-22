@@ -1,10 +1,11 @@
+from operator import mod
 from unicodedata import digit
 import numpy as np
 from numpy.lib.function_base import digitize
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from train_utils import batchify_data, run_epoch, train_model, Flatten
+from train_utils import batchify_data, run_epoch, train_model, Flatten, device
 import utils_multiMNIST as U
 path_to_data_dir = '../Datasets/'
 use_mini_dataset = True
@@ -56,6 +57,11 @@ def main():
     # Load model
     input_dimension = img_rows * img_cols
     model = MLP(input_dimension)
+    if torch.cuda.is_available():
+        model = model.to(device)
+        print("------------------- Using the Device: CUDA -------------------")
+    else:
+        print("------------------- Using the Device: CPU -------------------")
 
     # Train
     train_model(train_batches, dev_batches, model)
